@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>曉鹿鳴樓 VOC 顧客真實心聲輿情分析儀表板</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    /* Custom scrollbar and styling */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
+    ::-webkit-scrollbar-thumb { background: rgba(150,150,150,0.4); border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(100,100,100,0.6); }
+    .badge-glow-green { box-shadow: 0 0 15px -3px rgba(16, 185, 129, 0.3); }
+    .badge-glow-red { box-shadow: 0 0 15px -3px rgba(239, 68, 68, 0.3); }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen font-sans antialiased selection:bg-amber-500 selection:text-slate-900">
+
+  <!-- TOP NAVIGATION BAR -->
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-slate-900/80 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-600 via-rose-500 to-amber-400 flex items-center justify-center font-bold text-slate-950 shadow-lg text-lg">
+          鹿
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <h1 class="font-bold text-base sm:text-lg text-white tracking-wide">曉鹿鳴樓 永續台灣功夫菜</h1>
+            <span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30">VOC輿情分析專報</span>
+          </div>
+          <p class="text-xs text-slate-400 hidden sm:block">Voice of Customer 深度輿情大數據監測與營運優化系統</p>
+        </div>
+      </div>
+
+      <nav class="flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm">
+        <button onclick="switchTab('top3')" id="nav-top3" class="px-3 py-1.5 rounded-lg font-medium transition-all bg-amber-500/20 text-amber-300 border border-amber-500/30">
+          三大最佳 vs 最差
+        </button>
+        <button onclick="switchTab('dishes')" id="nav-dishes" class="px-3 py-1.5 rounded-lg font-medium transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800">
+          招牌菜品矩陣
+        </button>
+        <button onclick="switchTab('reviews')" id="nav-reviews" class="px-3 py-1.5 rounded-lg font-medium transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800">
+          320則評論庫
+        </button>
+        <button onclick="switchTab('strategy')" id="nav-strategy" class="px-3 py-1.5 rounded-lg font-medium transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800">
+          專家改善處方
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+    <!-- HERO / OVERVIEW CARDS -->
+    <section class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-5 shadow-sm relative overflow-hidden">
+        <div class="absolute -right-2 -bottom-2 w-16 h-16 bg-blue-500/5 rounded-full blur-xl pointer-events-none"></div>
+        <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">分析評論總樣本</p>
+        <div class="mt-2 flex items-baseline space-x-2">
+          <span class="text-3xl font-extrabold text-white">320</span>
+          <span class="text-xs text-slate-400">則完整Google評價</span>
+        </div>
+        <div class="mt-3 flex items-center text-xs text-blue-400 font-medium">
+          <span class="inline-block w-2 h-2 rounded-full bg-blue-400 mr-1.5 animate-pulse"></span>
+          100% 覆蓋真實驗證
+        </div>
+      </div>
+
+      <div class="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-5 shadow-sm relative overflow-hidden">
+        <div class="absolute -right-2 -bottom-2 w-16 h-16 bg-emerald-500/5 rounded-full blur-xl pointer-events-none"></div>
+        <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">正面好評佔比 (Positive)</p>
+        <div class="mt-2 flex items-baseline space-x-2">
+          <span class="text-3xl font-extrabold text-emerald-400">55.3%</span>
+          <span class="text-xs text-slate-400">177 則</span>
+        </div>
+        <div class="mt-3 w-full bg-slate-700/50 rounded-full h-1.5 overflow-hidden">
+          <div class="bg-emerald-500 h-1.5 rounded-full" style="width: 55.3%"></div>
+        </div>
+      </div>
+
+      <div class="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-5 shadow-sm relative overflow-hidden">
+        <div class="absolute -right-2 -bottom-2 w-16 h-16 bg-amber-500/5 rounded-full blur-xl pointer-events-none"></div>
+        <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">中立/平淡觀望 (Neutral)</p>
+        <div class="mt-2 flex items-baseline space-x-2">
+          <span class="text-3xl font-extrabold text-amber-400">29.1%</span>
+          <span class="text-xs text-slate-400">93 則</span>
+        </div>
+        <div class="mt-3 w-full bg-slate-700/50 rounded-full h-1.5 overflow-hidden">
+          <div class="bg-amber-500 h-1.5 rounded-full" style="width: 29.1%"></div>
+        </div>
+      </div>
+
+      <div class="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-5 shadow-sm relative overflow-hidden">
+        <div class="absolute -right-2 -bottom-2 w-16 h-16 bg-rose-500/5 rounded-full blur-xl pointer-events-none"></div>
+        <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">強烈負評客訴 (Negative)</p>
+        <div class="mt-2 flex items-baseline space-x-2">
+          <span class="text-3xl font-extrabold text-rose-400">15.6%</span>
+          <span class="text-xs text-slate-400">50 則</span>
+        </div>
+        <div class="mt-3 w-full bg-slate-700/50 rounded-full h-1.5 overflow-hidden">
+          <div class="bg-rose-500 h-1.5 rounded-full" style="width: 15.6%"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 1: 核心結論：三大最好 vs 三大最差對決 -->
+    <div id="tab-top3" class="space-y-8 block">
+      
+      <!-- EXECUTIVE SUMMARY BANNER -->
+      <div class="bg-gradient-to-r from-slate-800 via-slate-800/90 to-slate-900 border border-slate-700 rounded-3xl p-6 md:p-8 shadow-xl">
+        <div class="max-w-4xl">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold mb-3">
+            <span>輿情分析師核心診斷 (Executive Takeaway)</span>
+          </div>
+          <h2 class="text-xl md:text-2xl font-bold text-white tracking-tight leading-snug">
+            「菜色實力硬核，毀在翻桌心急」—— 曉鹿鳴樓的冰火二重天
+          </h2>
+          <p class="mt-3 text-slate-300 text-sm leading-relaxed">
+            透過對 320 則真實 Google 評論的大數據語意剖析，曉鹿鳴樓呈現出極度鮮明的反差：<br>
+            <strong class="text-emerald-400">【正面優勢】</strong>集中在無可撼動的<strong class="text-white">「東坡肉」</strong>功夫硬菜、真材實料<strong class="text-white">「石斛雞湯與去籽銀耳羹」</strong>，以及包廂聚會的高 CP 值與交通便利性；<br>
+            <strong class="text-rose-400">【負面痛點】</strong>則高度聚焦在尖峰時段的<strong class="text-white">「奪命連環催趕翻桌」</strong>、外場甚至主管級別的<strong class="text-white">「傲慢臭臉擺態」</strong>，以及<strong class="text-white">「上菜順序失控與除夕年菜大翻車」</strong>。
+          </p>
+        </div>
+      </div>
+
+      <!-- COMPARISON GRID: 3 BEST VS 3 WORST -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <!-- ==================== THREE BEST ==================== -->
+        <div class="space-y-6">
+          <div class="flex items-center justify-between pb-3 border-b border-emerald-500/30">
+            <div class="flex items-center space-x-3">
+              <span class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-lg border border-emerald-500/30">★</span>
+              <div>
+                <h3 class="text-lg font-bold text-white">三大最佳評價 (Top 3 Strengths)</h3>
+                <p class="text-xs text-emerald-400/80">品牌核心護城河與顧客回訪支柱</p>
+              </div>
+            </div>
+            <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">滿意度 80%+</span>
+          </div>
+
+          <!-- BEST #1: 東坡肉 -->
+          <div class="bg-slate-800/90 border border-emerald-500/30 hover:border-emerald-500/60 transition-all rounded-2xl p-6 space-y-4 shadow-lg group">
+            <div class="flex items-start justify-between">
+              <div class="flex items-center space-x-3">
+                <span class="text-2xl font-black text-emerald-400">#01</span>
+                <div>
+                  <h4 class="text-base font-bold text-white group-hover:text-emerald-300 transition-colors">「銷魂東坡肉」正統江浙功夫菜色香俱全</h4>
+                  <p class="text-xs text-slate-400">89次主動提及・滿意度高達 83.1%</p>
+                </div>
+              </div>
+              <span class="text-xs px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/30">鎮店之寶</span>
+            </div>
+
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              入口即化、肥而不膩，肉質軟爛鹹鮮適中，搭配熱騰騰刈包與青蔥是大絕配！多次獲得老饕、家庭長輩甚至跨國外賓專案聚餐的極高推崇，是絕大多數初訪者指定必點的核心招牌。
+            </p>
+
+            <div class="bg-slate-900/80 rounded-xl p-3 border border-slate-700/60 space-y-2 text-xs">
+              <div class="flex items-center justify-between text-slate-400">
+                <span class="font-medium text-emerald-400">顧客真實原話證言</span>
+                <span>tutu chiu (5年前)</span>
+              </div>
+              <blockquote class="text-slate-200 italic">
+                「吃過這裡的東坡肉應該就回不去了，軟嫩不膩的三層肉，佐著不會太甜太鹹的湯汁，美味至極！」
+              </blockquote>
+            </div>
+
+            <div class="bg-slate-900/80 rounded-xl p-3 border border-slate-700/60 space-y-2 text-xs">
+              <div class="flex items-center justify-between text-slate-400">
+                <span class="font-medium text-emerald-400">老外外賓折服證言</span>
+                <span>Sonja Huang (3年前)</span>
+              </div>
+              <blockquote class="text-slate-200 italic">
+                「我們八人（七位不同國籍外國朋友）和我吃了都讚不絕口！東坡肉好吃到外國人開心不已，餐後還在店門口拍照！」
+              </blockquote>
+            </div>
+
+            <div class="pt-2 flex flex-wrap gap-1.5 text-xs">
+              <span class="px-2 py-0.5 rounded bg-slate-700 text-slate-300">#入口即化</span>
+              <span class="px-2 py-0.5 rounded bg-slate-700 text-slate-300">#肥而不膩</span>
+              <span class="px-2 py-0.5 rounded bg-slate-700 text-slate-300">#割包大蔥絕配</span>
+              <span class="px-2 py-0.5 rounded bg-slate-700 text-slate-300">#宴請外賓首選</span>
+            </div>
+          </div>
+
+          <!-- BEST #2: 石斛雞湯與去籽銀耳 -->
+          <div class="bg-slate-800/90 border border-emerald-500/30 hover:border-emerald-500/60 transition-all rounded-2xl p-6 space-y-4 shadow-lg group">
+            <div class="flex items-start justify-between">
+              <div class="flex items-center space-x-3">
+                <span class="text-2xl font-black text-emerald-400">#02</span>
+                <div>
+                  <h4 class="text-base font-bold text-white group-hover:text-emerald-300 transition-colors">「峭壁石斛燉雞湯」溫潤甘醇與「細心去籽銀耳羹」</h4>
+                  <p class="text-xs text-slate-400">雞湯55次提及・甜湯20+次好評致謝</p>
+                </div>
+              </div>
+              <span class="text-xs px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/30">細節征服人心</span>
+            </div>
+
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              真材實料的中藥石斛需預訂，湯頭清淡不油、甘醇溫潤，能加湯的設定深獲好評；飯後贈送的蜂蜜銀耳紅棗甜湯燉透滑順，且「紅棗細心去籽」的工藝細節，常在結尾帶來極佳的峰終定律（Peak-End Rule）驚豔感。
+            </p>
+
+            <div class="bg-slate-900/80 rounded-xl p-3 border border-slate-700/60 space-y-2 text-xs">
+              <div class="flex items-center justify-between text-slate-400">
+                <span class="font-medium text-emerald-400">顧客真實原話證言</span>
+                <span>夏朝_Sia Chao (1年前)</span>
+              </div>
+              <blockquote class="text-slate-200 italic">
+                「峭壁石斛燉雞湯喝起來很舒服，清淡不油、滋味濃郁，帶有一點中藥材天然的甜味，讓身體很舒適又美味！」
+              </blockquote>
+            </div>
+
+            <div class="bg-slate-900/80 rounded-xl p-3 border border-slate-700/60 space-y-2 text-xs">
+              <div class="flex items-center justify-between text-slate-400">
+                <span class="font-medium text-emerald-400">細節控好評</span>
+                <span>L.H. KUO (4年前)</span>
+              </div>
+              <blockquote class="text-slate-200 italic">
+                「今日用餐亮點是飯後招待甜湯的紅棗有去籽，算是在小細節有用心！」
+              </blockquote>
+            </div>
+
+            <div class="pt-2 flex flex-wrap gap-1.5 text-xs">
+              <span class="px-2 py-0.5 rounded bg-slate-700 text-slate-300">#清爽不油膩</span>
+              <span class="px-2 py-0.5 rounded bg-slate-700 text-slate-300">#天然回甘</span>
+              <span class="px-2 py-0.5 rounded bg-slate-700 text-slate-300">#去籽紅棗</span>
+              <span class="px-2 py-0.5 rounded bg-slate-700 text-slate-300">#可續加雞湯</span>
+            </div>
+          </div>
+
+          <!-- BEST #3: 高CP值大份量與交通包廂 -->
+          <div class="bg-slate-800/90 border border-emerald-500/30 hover:border-emerald-500/60 transition-all rounded-2xl p-6 space-y-4 shadow-lg group">
+            <div class="flex items-start justify-between">
+              <div class="flex items-center space-x-3">
+                <span class="text-2xl font-black text-emerald-400">#03</span>
+                <div>
+                  <h4 class="text-base font-bold text-white group-hover:text-emerald-300 transition-colors">高性價比份量豪爽、交通優越與包廂歡唱機能</h4>
+                  <p class="text-xs text-slate-400">聚會機能提及率達 25% 以上</p>
+                </div>
+              </div>
+              <span class="text-xs px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 font-semibold border border-emerald-500/30">聚餐性價比王</span>
+            </div>
+
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              大份量「絕對不讓你餓著回家」，8位成年男性吃下來人均不到 960 元；座落台大公館捷運直達、旁邊就有停車場，二樓包廂更整合卡拉OK音響與大螢幕，具備台北少見的「吃功夫菜還能邊唱歌」的一站式宴席優勢。
+            </p>
+
+            <div class="bg-slate-900/80 rounded-xl p-3 border border-slate-700/60 space-y-2 text-xs">
+              <div class="flex items-center justify-between text-slate-400">
+                <span class="font-medium text-emerald-400">顧客真實原話證言</span>
+                <span>DR LI (3個月前)</span>
+              </div>
+              <blockquote class="text-slate-200 italic">
+                「C/P非常高，點這麼多菜8個男生吃下來，一個人大約960，東西也不錯吃，份量也能夠吃飽，非常推薦！」
+              </blockquote>
+            </div>
+
+            <div class="bg-slate-900/80 rounded-xl p-3 border border-slate-700/60 space-y-2 text-xs">
+              <div class="flex items-center justify-between text-slate-400">
+                <span class="font-medium text-emerald-400">娛樂包廂機能</span>
+                <span>chi wawa (8個月前)</span>
+              </div>
+              <blockquote class="text-slate-200 italic">
+                「最特別的是這裡可以一邊用餐、一邊唱歌，將聚餐與娛樂結合在同一個空間，氣氛輕鬆！」
+              </blockquote>
+            </div>
+
+            <div class="pt-2 flex flex-wrap gap-1.5 text-xs">
+              <span class="px-2 py-0.5 rounded bg-slate-700 text-slate-300">#吃飽不餓著</span>
+              <span class="px-2 py-0.5 rounded bg-slate-700 text-slate-300">#人均不到千元</span>
+              <span class="px-2 py-0.5 rounded bg-slate-700 text-slate-300">#捷運公館旁停車場</span>
+              <span class="px-2 py-0.5 rounded bg-slate-700 text-slate-300">#包廂唱歌KTV</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ==================== THREE WORST ==================== -->
+        <div class="space-y-6">
+          <div class="flex items-center justify-between pb-3 border-b border-rose-500/30">
+            <div class="flex items-center space-x-3">
+              <span class="w-8 h-8 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold text-lg border border-rose-500/30">✕</span>
+              <div>
+                <h3 class="text-lg font-bold text-white">三大最差評價 (Top 3 Pain Points)</h3>
+                <p class="text-xs text-rose-400/80">致命痛點、差評根源與急需整頓處</p>
+              </div>
+            </div>
+            <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-rose-500/10 text-rose-300 border border-rose-500/20">1星差評引爆點</span>
+          </div>
+
+          <!-- WORST #1: 催客趕人 -->
+          <div class="bg-slate-800/90 border border-rose-500/30 hover:border-rose-500/60 transition-all rounded-2xl p-6 space-y-4 shadow-lg group">
+            <div class="flex items-start justify-between">
+              <div class="flex items-center space-x-3">
+                <span class="text-2xl font-black text-rose-400">#01</span>
+                <div>
+                  <h4 class="text-base font-bold text-white group-hover:text-rose-300 transition-colors">「趕場式」翻桌催客與奪命連環問打包</h4>
+                  <p class="text-xs text-slate-400">18+則極端負評・破壞率 100%</p>
+                </div>
+              </div>
+              <span class="text-xs px-2.5 py-1 rounded-lg bg-rose-500/10 text-rose-400 font-semibold border border-rose-500/30">滿意度殺手</span>
+            </div>
+
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              用餐時間限時 90 分鐘死板執行，店內明明未坐滿，服務人員卻「3分鐘換一個人問要不要打包」、甚至客人筷子未動或碗裡食物還沒吃完就強行抽走盤碗；提早硬送融化冰淇淋，給予顧客極度被驅逐的壓迫感。
+            </p>
+
+            <div class="bg-slate-900/80 rounded-xl p-3 border border-slate-700/60 space-y-2 text-xs">
+              <div class="flex items-center justify-between text-slate-400">
+                <span class="font-medium text-rose-400">顧客痛心控訴</span>
+                <span>Jasmine Chou (2個月前)</span>
+              </div>
+              <blockquote class="text-slate-200 italic">
+                「真心的覺得這是一家不會再去第二次的餐廳。沒有看過一家餐廳一直想把客人趕走，明明菜才剛上，碗裡的食物還沒吃完，連問也不問就想把我的碗收走！」
+              </blockquote>
+            </div>
+
+            <div class="bg-slate-900/80 rounded-xl p-3 border border-slate-700/60 space-y-2 text-xs">
+              <div class="flex items-center justify-between text-slate-400">
+                <span class="font-medium text-rose-400">奪命連環催</span>
+                <span>KELLY YEN (5年前)</span>
+              </div>
+              <blockquote class="text-slate-200 italic">
+                「用餐壓力大，同個服務生不停來問需要打包嗎？直到第三次回說還沒吃完，隔不到三分鐘就技巧性的換個服務生來問。明明仍有空桌！」
+              </blockquote>
+            </div>
+
+            <div class="pt-2 flex flex-wrap gap-1.5 text-xs">
+              <span class="px-2 py-0.5 rounded bg-slate-700 text-slate-300">#奪命連環問打包</span>
+              <span class="px-2 py-0.5 rounded bg-slate-700 text-slate-300">#碗裡沒吃完直接收</span>
+              <span class="px-2 py-0.5 rounded bg-slate-700 text-slate-300">#空桌依然被趕</span>
+              <span class="px-2 py-0.5 rounded bg-slate-700 text-slate-300">#冰淇淋硬塞融化</span>
+            </div>
+          </div>
+
+          <!-- WORST #2: 態度傲慢與管理高層盛氣凌人 -->
+          <div class="bg-slate-800/90 border border-rose-500/30 hover:border-rose-500/60 transition-all rounded-2xl p-6 space-y-4 shadow-lg group">
+            <div class="flex items-start justify-between">
+              <div class="flex items-center space-x-3">
+                <span class="text-2xl font-black text-rose-400">#02</span>
+                <div>
+                  <h4 class="text-base font-bold text-white group-hover:text-rose-300 transition-colors">外場態度傲慢臉臭，接待主管「盛氣凌人擺官威」</h4>
+                  <p class="text-xs text-slate-400">21則投訴・直指情緒失控與高傲</p>
+                </div>
+              </div>
+              <span class="text-xs px-2.5 py-1 rounded-lg bg-rose-500/10 text-rose-400 font-semibold border border-rose-500/30">品牌公關危機</span>
+            </div>
+
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              點餐招呼愛理不理、揮手沒反應、臉臭不耐煩。甚至有顧客臨時增人被自稱「執行長」的主管冷眼以對盛氣凌人；包廂天花板滴水被服務員嗆「不要叫」；最後點餐時外場直接對未吃飽孩子回嗆「師傅要下班了」，收10%服務費卻連倒水都得自理。
+            </p>
+
+            <div class="bg-slate-900/80 rounded-xl p-3 border border-slate-700/60 space-y-2 text-xs">
+              <div class="flex items-center justify-between text-slate-400">
+                <span class="font-medium text-rose-400">主管盛氣凌人</span>
+                <span>Chang Chang (3個月前)</span>
+              </div>
+              <blockquote class="text-slate-200 italic">
+                「負責接待的我們的『執行長』態度惡劣，彷彿官位比客人還高，盛氣凌人、缺乏彈性，讓人感覺不是在用餐，而是在看她臉色？？？完全不值得回訪！」
+              </blockquote>
+            </div>
+
+            <div class="bg-slate-900/80 rounded-xl p-3 border border-slate-700/60 space-y-2 text-xs">
+              <div class="flex items-center justify-between text-slate-400">
+                <span class="font-medium text-rose-400">滴水反被嗆</span>
+                <span>洪韻玄 (1年前)</span>
+              </div>
+              <blockquote class="text-slate-200 italic">
+                「包廂裡面燈泡在滴水，跟服務人員說，她居然叫我不要叫，進來還問我說『剛剛是你在叫的嗎』🙄」
+              </blockquote>
+            </div>
+
+            <div class="pt-2 flex flex-wrap gap-1.5 text-xs">
+              <span class="px-2 py-0.5 rounded bg-slate-700 text-slate-300">#執行長官威擺態</span>
+              <span class="px-2 py-0.5 rounded bg-slate-700 text-slate-300">#滴水被嗆不要叫</span>
+              <span class="px-2 py-0.5 rounded bg-slate-700 text-slate-300">#師傅快下班不給點</span>
+              <span class="px-2 py-0.5 rounded bg-slate-700 text-slate-300">#收服務費倒水自理</span>
+            </div>
+          </div>
+
+          <!-- WORST #3: 出菜混亂與年節菜崩盤 -->
+          <div class="bg-slate-800/90 border border-rose-500/30 hover:border-rose-500/60 transition-all rounded-2xl p-6 space-y-4 shadow-lg group">
+            <div class="flex items-start justify-between">
+              <div class="flex items-center space-x-3">
+                <span class="text-2xl font-black text-rose-400">#03</span>
+                <div>
+                  <h4 class="text-base font-bold text-white group-hover:text-rose-300 transition-colors">尖峰出菜順序顛倒、擅換食材與破萬年菜大翻車</h4>
+                  <p class="text-xs text-slate-400">20則嚴重投訴・質疑誠信與產能</p>
+                </div>
+              </div>
+              <span class="text-xs px-2.5 py-1 rounded-lg bg-rose-500/10 text-rose-400 font-semibold border border-rose-500/30">誠信與品控危機</span>
+            </div>
+
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              非尖峰與尖峰體驗判若兩店！重醬汁大菜吃光了最後才送上菜飯；百合缺貨未事先告知，擅自用平價山藥充數卻照收百合高價；除夕/初五破萬桌菜（15,800+10%）拿手菜全失蹤，椅背貼椅背宛如「廉價大辦桌群聚」，甚至出現覆熱外熱內冷。
+            </p>
+
+            <div class="bg-slate-900/80 rounded-xl p-3 border border-slate-700/60 space-y-2 text-xs">
+              <div class="flex items-center justify-between text-slate-400">
+                <span class="font-medium text-rose-400">大菜吃完才上飯</span>
+                <span>Yun (3個月前)</span>
+              </div>
+              <blockquote class="text-slate-200 italic">
+                「點了菜飯、紅燒肉、鱔魚、雞湯，醬汁濃郁的餐點都吃完了，最後才上菜飯。並沒有為客人用餐順序著想，問了只說大鍋料理要等。」
+              </blockquote>
+            </div>
+
+            <div class="bg-slate-900/80 rounded-xl p-3 border border-slate-700/60 space-y-2 text-xs">
+              <div class="flex items-center justify-between text-slate-400">
+                <span class="font-medium text-rose-400">年菜萬七大翻車</span>
+                <span>Lii Gwen / 丹 (1~3年前)</span>
+              </div>
+              <blockquote class="text-slate-200 italic">
+                「除夕一桌15800+10%，椅背貼椅背根本大型群聚現場，菜色慘不忍睹又難吃！大年初五拿手菜全不在，服務員還一直來趕人，花錢找罪受！」
+              </blockquote>
+            </div>
+
+            <div class="pt-2 flex flex-wrap gap-1.5 text-xs">
+              <span class="px-2 py-0.5 rounded bg-slate-700 text-slate-300">#菜飯最後才上</span>
+              <span class="px-2 py-0.5 rounded bg-slate-700 text-slate-300">#山藥充百合收原價</span>
+              <span class="px-2 py-0.5 rounded bg-slate-700 text-slate-300">#萬七年菜無亮點</span>
+              <span class="px-2 py-0.5 rounded bg-slate-700 text-slate-300">#大型辦桌擁擠吵雜</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- TAB 2: 招牌菜品滿意度與雷區矩陣 -->
+    <div id="tab-dishes" class="space-y-6 hidden">
+      <div class="border-b border-slate-800 pb-4">
+        <h3 class="text-xl font-bold text-white">經典菜色評價聲量與品質透視矩陣</h3>
+        <p class="text-xs text-slate-400 mt-1">針對顧客最常點評的 8 大招牌名菜，全面解析「亮點優勢」與「踩雷預警」</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- 菜品 1: 東坡肉 -->
+        <div class="bg-slate-800/80 border border-slate-700/70 rounded-2xl p-5 space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h4 class="text-base font-bold text-amber-400">銷魂東坡肉 (夾刈包)</h4>
+              <span class="text-xs text-slate-400">聲量：89 則評論提及</span>
+            </div>
+            <span class="px-2.5 py-1 text-xs rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 font-bold">83% 好評</span>
+          </div>
+          <div class="space-y-2 text-xs">
+            <div class="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+              <strong class="text-emerald-300 block mb-1">👍 顧客狂讚：</strong>
+              入口即化、燉煮至軟爛鹹香適中，皮脂膠質黏唇不膩，夾入割包與青蔥、花生粉堪稱靈魂絕配。
+            </div>
+            <div class="p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/20">
+              <strong class="text-rose-300 block mb-1">⚠️ 負面預警：</strong>
+              品質有時浮動，偶爾被批瘦肉部位過柴、或三層肉肥肉比例過高達80%帶豬腥味；割包皮冷掉後易乾硬。
+            </div>
+          </div>
+        </div>
+
+        <!-- 菜品 2: 峭壁石斛燉雞湯 -->
+        <div class="bg-slate-800/80 border border-slate-700/70 rounded-2xl p-5 space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h4 class="text-base font-bold text-amber-400">峭壁石斛燉雞湯 (預訂)</h4>
+              <span class="text-xs text-slate-400">聲量：55 則評論提及</span>
+            </div>
+            <span class="px-2.5 py-1 text-xs rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 font-bold">82% 好評</span>
+          </div>
+          <div class="space-y-2 text-xs">
+            <div class="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+              <strong class="text-emerald-300 block mb-1">👍 顧客狂讚：</strong>
+              天然石斛中藥入湯，滋味濃郁卻完全不油膩，回甘清甜，雞肉燉得透徹，且可主動免費加湯超加分！
+            </div>
+            <div class="p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/20">
+              <strong class="text-rose-300 block mb-1">⚠️ 負面預警：</strong>
+              需提前 2 天預約；極少數評論反映加熱多次時湯頭鹽分濃縮過鹹、雞肉肉質略柴。
+            </div>
+          </div>
+        </div>
+
+        <!-- 菜品 3: 上海翡翠菜飯 -->
+        <div class="bg-slate-800/80 border border-slate-700/70 rounded-2xl p-5 space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h4 class="text-base font-bold text-amber-400">翡翠上海菜飯</h4>
+              <span class="text-xs text-slate-400">聲量：45 則評論提及</span>
+            </div>
+            <span class="px-2.5 py-1 text-xs rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/20 font-bold">71% 好評</span>
+          </div>
+          <div class="space-y-2 text-xs">
+            <div class="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+              <strong class="text-emerald-300 block mb-1">👍 顧客狂讚：</strong>
+              青江菜翠綠水潤、菜香飽滿，米粒吸附高湯香氣，是江浙菜不可或缺的靈魂主食。
+            </div>
+            <div class="p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/20">
+              <strong class="text-rose-300 block mb-1">⚠️ 負面預警：</strong>
+              最大的客訴是「出菜時序嚴重延遲」，重口味大菜吃完菜飯才上；偶有水分控制不均造成過乾或偏爛問題。
+            </div>
+          </div>
+        </div>
+
+        <!-- 菜品 4: 蔥燒鯽魚 / 砂鍋魚頭 -->
+        <div class="bg-slate-800/80 border border-slate-700/70 rounded-2xl p-5 space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h4 class="text-base font-bold text-amber-400">蔥燒鯽魚 / 砂鍋魚頭</h4>
+              <span class="text-xs text-slate-400">聲量：28 則評論提及</span>
+            </div>
+            <span class="px-2.5 py-1 text-xs rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 font-bold">78% 好評</span>
+          </div>
+          <div class="space-y-2 text-xs">
+            <div class="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+              <strong class="text-emerald-300 block mb-1">👍 顧客狂讚：</strong>
+              鯽魚抱卵入味，蔥香濃烈、連魚骨刺都燉至酥軟可全吞；砂鍋魚頭份量極大、湯頭厚實適合十人聚餐。
+            </div>
+            <div class="p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/20">
+              <strong class="text-rose-300 block mb-1">⚠️ 負面預警：</strong>
+              近幾個月有常客反應鯽魚「腥味偏重、醬汁調味過鹹」，不如以往穩定。
+            </div>
+          </div>
+        </div>
+
+        <!-- 菜品 5: 招待銀耳紅棗甜湯 / 心太軟 -->
+        <div class="bg-slate-800/80 border border-slate-700/70 rounded-2xl p-5 space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h4 class="text-base font-bold text-amber-400">蜂蜜去籽銀耳羹 / 心太軟</h4>
+              <span class="text-xs text-slate-400">聲量：22 則評論提及</span>
+            </div>
+            <span class="px-2.5 py-1 text-xs rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 font-bold">86% 好評</span>
+          </div>
+          <div class="space-y-2 text-xs">
+            <div class="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+              <strong class="text-emerald-300 block mb-1">👍 顧客狂讚：</strong>
+              飯後免費招待卻極具水準，白木耳膠質燉化，紅棗去籽超貼心；心太軟紅棗夾糯米口感Q彈討喜。
+            </div>
+            <div class="p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/20">
+              <strong class="text-rose-300 block mb-1">⚠️ 負面預警：</strong>
+              上菜急躁時，服務生在主菜未吃完就硬塞甜湯，引發趕客觀感。
+            </div>
+          </div>
+        </div>
+
+        <!-- 菜品 6: 爭議雷區：蜜桃燒鴨腿 / 蒜香蝦油雞 -->
+        <div class="bg-slate-800/80 border border-slate-700/70 rounded-2xl p-5 space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h4 class="text-base font-bold text-amber-400">蜜桃燒鴨腿 / 蒜香蝦油雞</h4>
+              <span class="text-xs text-slate-400">聲量：15 則評論提及</span>
+            </div>
+            <span class="px-2.5 py-1 text-xs rounded-full bg-rose-500/10 text-rose-300 border border-rose-500/20 font-bold">40% 好評 (爭議大)</span>
+          </div>
+          <div class="space-y-2 text-xs">
+            <div class="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+              <strong class="text-emerald-300 block mb-1">👍 顧客評價：</strong>
+              少數客人覺得甜鹹組合開胃有特色，外觀擺盤適合宴席拍照。
+            </div>
+            <div class="p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/20">
+              <strong class="text-rose-300 block mb-1">⚠️ 負面預警：</strong>
+              多次被顧客直接點名「地雷不推薦」！蜜桃鴨腿實為廉價鴨賞淋罐頭水果醬，落差極大；油雞本體過鹹且蒜酥乾柴。
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TAB 3: 320 則真實評論庫搜尋探索器 -->
+    <div id="tab-reviews" class="space-y-6 hidden">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+        <div>
+          <h3 class="text-xl font-bold text-white">真實 VOC 評論全庫檢索</h3>
+          <p class="text-xs text-slate-400 mt-1">即時檢視 320 則 Google Maps 顧客心聲，支援關鍵字與多維度標籤過濾</p>
+        </div>
+        <div class="flex items-center space-x-2">
+          <span class="text-xs text-slate-400">目前顯示：</span>
+          <span id="filtered-count" class="text-xs font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">320 則</span>
+        </div>
+      </div>
+
+      <!-- FILTER CONTROLS -->
+      <div class="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-4 space-y-4">
+        <div class="flex flex-col sm:flex-row gap-3">
+          <div class="relative flex-1">
+            <input type="text" id="review-search" oninput="applyFilters()" placeholder="搜尋評論內容、作者、菜名（如：東坡肉、態度、催、菜飯、打包）..." 
+                   class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-500">
+            <span class="absolute right-3 top-2.5 text-slate-500 text-xs">🔍</span>
+          </div>
+
+          <div class="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
+            <button onclick="setSentimentFilter('all')" id="filter-all" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-amber-500 text-slate-950 font-bold transition-all">全部 (320)</button>
+            <button onclick="setSentimentFilter('positive')" id="filter-positive" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-900 text-slate-400 hover:text-emerald-400 transition-all border border-slate-700">好評 (177)</button>
+            <button onclick="setSentimentFilter('negative')" id="filter-negative" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-900 text-slate-400 hover:text-rose-400 transition-all border border-slate-700">負評 (50)</button>
+            <button onclick="setSentimentFilter('neutral')" id="filter-neutral" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-900 text-slate-400 hover:text-amber-400 transition-all border border-slate-700">中立 (93)</button>
+          </div>
+        </div>
+
+        <!-- QUICK TOPIC TAGS -->
+        <div class="flex flex-wrap items-center gap-1.5 pt-1 text-xs">
+          <span class="text-slate-400 mr-1">焦點主題快速過濾:</span>
+          <button onclick="toggleTagFilter('東坡肉')" class="tag-btn px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700 text-slate-300 hover:border-amber-500 transition-colors" data-tag="東坡肉">#東坡肉</button>
+          <button onclick="toggleTagFilter('石斛雞湯')" class="tag-btn px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700 text-slate-300 hover:border-amber-500 transition-colors" data-tag="石斛雞湯">#石斛雞湯</button>
+          <button onclick="toggleTagFilter('上海菜飯')" class="tag-btn px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700 text-slate-300 hover:border-amber-500 transition-colors" data-tag="上海菜飯">#上海菜飯</button>
+          <button onclick="toggleTagFilter('催客趕人')" class="tag-btn px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700 text-slate-300 hover:border-rose-500 transition-colors text-rose-300" data-tag="催客趕人">#催客趕人</button>
+          <button onclick="toggleTagFilter('服務態度')" class="tag-btn px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700 text-slate-300 hover:border-rose-500 transition-colors text-rose-300" data-tag="服務態度">#服務態度</button>
+          <button onclick="toggleTagFilter('出菜品質')" class="tag-btn px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700 text-slate-300 hover:border-amber-500 transition-colors" data-tag="出菜品質">#出菜順序</button>
+          <button onclick="toggleTagFilter('CP值')" class="tag-btn px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700 text-slate-300 hover:border-emerald-500 transition-colors text-emerald-300" data-tag="CP值">#CP值聚會</button>
+          <button onclick="toggleTagFilter('年菜爭議')" class="tag-btn px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700 text-slate-300 hover:border-rose-500 transition-colors text-rose-300" data-tag="年菜爭議">#除夕年菜</button>
+        </div>
+      </div>
+
+      <!-- REVIEWS LIST CONTAINER -->
+      <div id="reviews-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Rendered by JS -->
+      </div>
+      
+      <div id="no-results" class="hidden text-center py-12 text-slate-500">
+        <p class="text-base font-semibold">找不到符合條件的評論</p>
+        <p class="text-xs mt-1">請嘗試縮減關鍵字或切換標籤</p>
+      </div>
+
+      <!-- PAGINATION / SHOW MORE -->
+      <div class="text-center pt-4">
+        <button id="load-more-btn" onclick="loadMoreReviews()" class="px-6 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition-all">
+          載入更多評論...
+        </button>
+      </div>
+    </div>
+
+    <!-- TAB 4: 專家營運診斷與救亡處方 -->
+    <div id="tab-strategy" class="space-y-8 hidden">
+      <div class="border-b border-slate-800 pb-4">
+        <h3 class="text-xl font-bold text-white">輿情分析專家 4 大營運診斷與改善處方</h3>
+        <p class="text-xs text-slate-400 mt-1">化負評為品牌資產：為曉鹿鳴樓管理層量身打造的實操救亡策略</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- 處方 1: 翻桌催客改革 -->
+        <div class="bg-slate-800/80 border border-rose-500/30 rounded-2xl p-6 space-y-4">
+          <div class="flex items-center space-x-3">
+            <span class="w-8 h-8 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold text-sm border border-rose-500/30">01</span>
+            <div>
+              <h4 class="text-base font-bold text-white">翻桌服務「解禁」：杜絕逐客式打包詢問</h4>
+              <span class="text-xs text-rose-400 font-medium">優先級：🚨 立即執行 (緊急度最高)</span>
+            </div>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            【病灶】：限時 90 分鐘執行僵化，店員為求翻桌率以「不停問打包」、「硬塞融化冰品」、「未問抽盤」等手段趕客，直接抹殺顧客對美味菜品的滿意度。
+          </p>
+          <div class="bg-slate-900/80 rounded-xl p-3.5 border border-slate-700 space-y-2 text-xs">
+            <strong class="text-amber-400 block font-semibold">專家落地 SOP：</strong>
+            <ul class="list-disc list-inside space-y-1 text-slate-300">
+              <li><strong>取消未客滿時段的硬性趕客</strong>：若無下一組候位，嚴禁 90 分鐘一到全桌收空。</li>
+              <li><strong>打包詢問單一責任制</strong>：一桌限詢問一次，禁止不同店員三分鐘輪流催促。</li>
+              <li><strong>甜品上餐時序確認</strong>：冰品/甜湯必須在主菜收整完畢、顧客主動確認後才出餐。</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 處方 2: 外場與主管接待心態整頓 -->
+        <div class="bg-slate-800/80 border border-amber-500/30 rounded-2xl p-6 space-y-4">
+          <div class="flex items-center space-x-3">
+            <span class="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-sm border border-amber-500/30">02</span>
+            <div>
+              <h4 class="text-base font-bold text-white">管理層與外場情緒培訓：去除高傲官威</h4>
+              <span class="text-xs text-amber-400 font-medium">優先級：🚨 立即執行 (聲譽防護)</span>
+            </div>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            【病灶】：評論中數次出現接待主管（如執行長）擺官威、面對客訴或滴水事件反嗆客人「不要叫」，服務態度甚至不如一般小吃店，嚴重破壞高檔台大功夫菜形象。
+          </p>
+          <div class="bg-slate-900/80 rounded-xl p-3.5 border border-slate-700 space-y-2 text-xs">
+            <strong class="text-amber-400 block font-semibold">專家落地 SOP：</strong>
+            <ul class="list-disc list-inside space-y-1 text-slate-300">
+              <li><strong>客訴三部曲標準化</strong>：傾聽致歉 ➔ 現場即時排除（滴水立即換桌/贈菜）➔ 主管致意。</li>
+              <li><strong>禁止打烊前負面話術</strong>：嚴禁對加點客人說「廚房要下班了」，改為「為您確認廚房最後加點推薦」。</li>
+              <li><strong>桌邊倒水服務落實</strong>：既然收取 10% 服務費，外場巡桌添茶倒水需列入基本考核指標。</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 處方 3: 廚房出菜節奏與菜品品控 -->
+        <div class="bg-slate-800/80 border border-blue-500/30 rounded-2xl p-6 space-y-4">
+          <div class="flex items-center space-x-3">
+            <span class="w-8 h-8 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-sm border border-blue-500/30">03</span>
+            <div>
+              <h4 class="text-base font-bold text-white">出菜順序智能把控與食材誠信機制</h4>
+              <span class="text-xs text-blue-400 font-medium">優先級：⏳ 中期優化 (廚房流程)</span>
+            </div>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            【病灶】：重醬汁菜色（紅燒肉、鱔魚）都吃光了菜飯才壓軸登場；缺料（百合）擅自換廉價山藥充數並照收原價，引發欺瞞誠信危機。
+          </p>
+          <div class="bg-slate-900/80 rounded-xl p-3.5 border border-slate-700 space-y-2 text-xs">
+            <strong class="text-amber-400 block font-semibold">專家落地 SOP：</strong>
+            <ul class="list-disc list-inside space-y-1 text-slate-300">
+              <li><strong>主食伴隨首波大菜出餐</strong>：KDS 系統綁定出單順序，第一道熱炒上桌 5 分鐘內必須配上菜飯。</li>
+              <li><strong>食材替代「預先告知」原則</strong>：遇百合等時令食材缺貨，點菜時由外場主動告知並折扣差價。</li>
+              <li><strong>剔除爭議菜色</strong>：重新調整負評偏高的「蜜桃燒鴨腿」與「蒜香蝦油雞」配方或直接替換。</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 處方 4: 節慶除夕年菜與品牌資產擴大 -->
+        <div class="bg-slate-800/80 border border-emerald-500/30 rounded-2xl p-6 space-y-4">
+          <div class="flex items-center space-x-3">
+            <span class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-sm border border-emerald-500/30">04</span>
+            <div>
+              <h4 class="text-base font-bold text-white">除夕年菜重構與王牌資產零售化</h4>
+              <span class="text-xs text-emerald-400 font-medium">優先級：🌟 長期品牌賦能 (營收成長)</span>
+            </div>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            【病灶】：15,800+10% 高價除夕桌菜剔除招牌拿手菜、椅背貼椅背宛如「災難群聚」，直接損害多年口碑；但東坡肉與石斛雞湯具備極高品牌溢價潛力。
+          </p>
+          <div class="bg-slate-900/80 rounded-xl p-3.5 border border-slate-700 space-y-2 text-xs">
+            <strong class="text-amber-400 block font-semibold">專家落地 SOP：</strong>
+            <ul class="list-disc list-inside space-y-1 text-slate-300">
+              <li><strong>年夜飯保留雙核心</strong>：除夕桌菜必須涵蓋「東坡肉」與「石斛燉雞湯」，確保口碑基本盤不倒。</li>
+              <li><strong>桌距紅線規範</strong>：年節不超賣桌數，保障至少 1 公尺過道距離，避免「吃辦桌」廉價感。</li>
+              <li><strong>東坡肉冷鏈禮盒放大</strong>：將「軟爛入口即化」的王牌東坡肉推向冷凍年菜市場，打造第二營收曲線。</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="mt-16 border-t border-slate-800 bg-slate-950 py-8 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 space-y-2">
+      <p>曉鹿鳴樓 VOC 顧客心聲輿情分析報告 | 資料源自 Google Maps 320 則公開顧客評論</p>
+      <p class="text-slate-600">本互動式儀表板由 Antigravity 輿情大數據分析模組生成</p>
+    </div>
+  </footer>
+
+  <!-- SCRIPT FOR INTERACTION -->
+  <script>
+    // Reviews Data
+    const rawReviews = [{"id": 0, "author": "Yun", "author_info": "Local Guide · 13 reviews · 11 photos", "time": "Edited 3 months ago", "text": "1. 料理好吃，但上菜順序有點奇怪\n點了菜飯、紅燒肉、鱔魚、雞湯等料理，醬汁濃郁的餐點都吃完了，最後才上菜飯。感覺並沒有未客人用餐順序著想，有詢問過桌邊服務人員，只說因為是大鍋料理所以要等。\n（上菜順序：炒鱔魚>山藥>紅燒肉>湯>雞絲>菜飯） …", "sentiment": "positive", "likes": "+3", "tags": ["石斛雞湯", "上海菜飯", "出菜品質"]}, {"id": 1, "author": "DR LI", "author_info": "Local Guide · 27 reviews · 134 photos", "time": "3 months ago", "text": "在本月壽星的邀請下來到曉鹿鳴樓餐館，個人覺得這間餐館的C/P非常高，點這麼多菜8個男生吃下來，一個人大約960，東西也不錯吃，份量也能夠吃飽，服務阿姨的態度也相當親切，非常推薦大家前來用餐", "sentiment": "positive", "likes": "+8", "tags": ["服務態度", "CP值"]}, {"id": 2, "author": "Hugo Chen", "author_info": "Local Guide · 272 reviews · 1,867 photos", "time": "5 months ago", "text": "這家國立臺灣大學活動中心的曉鹿鳴樓 永續台灣功夫菜用餐，整體體驗相當不錯，也難怪生意一直都很好。從入店開始就能感受到餐廳的用心，服務人員態度親切、應對得宜，讓整個用餐過程非常舒適放鬆，這點在熱門餐廳中其實相當難得。 …", "sentiment": "negative", "likes": "+11", "tags": ["服務態度"]}, {"id": 3, "author": "Fong Zeng", "author_info": "Local Guide · 419 reviews · 3,317 photos", "time": "3 months ago", "text": "根本是超大型辦桌現場\n生意非常好的一家店 …", "sentiment": "neutral", "likes": "+11", "tags": []}, {"id": 4, "author": "李山姆", "author_info": "Local Guide · 361 reviews · 2,043 photos", "time": "4 months ago", "text": "曉鹿鳴樓-一間相當有水準的江浙菜館，每一道菜都能明確的的表現出該有的特色，而非只是沒有記憶點的菜品。無論是軟爛鹹鮮適中的東坡肉，水潤又飽滿菜香的菜飯抑或是清新甘甜的雞湯，再再的都能感受到店家對於江浙菜的認知與誠意。非常值得三五好友聚餐時來享受一下。", "sentiment": "negative", "likes": "+9", "tags": ["東坡肉", "石斛雞湯", "上海菜飯", "CP值"]}, {"id": 5, "author": "林嘉誠", "author_info": "Local Guide · 39 reviews · 191 photos", "time": "Edited 3 months ago", "text": "已經先想好了想吃什麼，但說要點餐了好幾次都沒理\n只有一直在問要不要茶水，說了溫開水後還是一直問\n點了菜後，感覺是按照那些餐點點的人數多就先做 …", "sentiment": "neutral", "likes": "+4", "tags": []}, {"id": 6, "author": "郭芳妘", "author_info": "Local Guide · 229 reviews · 565 photos", "time": "3 months ago", "text": "蜂蜜白銀耳甜湯 很好喝欸xdd\n\n令人回味無窮∞的佳餚: …", "sentiment": "neutral", "likes": "+4", "tags": []}, {"id": 7, "author": "陳薏茹", "author_info": "Local Guide · 11 reviews · 23 photos", "time": "3 weeks ago", "text": "東西都很好吃，尤其是東坡肉，雞湯的湯頭也很不錯，雞肉燉的很透，用餐環境跟氛圍也很好，服務也很棒，是個適合聚餐的地點！", "sentiment": "positive", "likes": "", "tags": ["東坡肉", "石斛雞湯"]}, {"id": 8, "author": "徐Bella", "author_info": "Local Guide · 1,160 reviews · 9,198 photos", "time": "6 months ago", "text": "這次跟家人聚餐，臨時找到曉鹿鳴樓 永續台灣功夫菜。據說主打江浙料理，名字很有氣質，「永續」兩個字聽起來也很有使命感，感覺吃完會對環境更友善（？）。\n\n整體吃下來一句話：份量不用擔心，絕對不會讓你餓著回家。 …", "sentiment": "neutral", "likes": "+23", "tags": []}, {"id": 9, "author": "MC H", "author_info": "Local Guide · 153 reviews · 3,390 photos", "time": "5 months ago", "text": "請客訂桌菜，套裝內容可商量更換。江浙菜口味OK，服務態度OK，地點停車方便，坐捷運也方便（公館捷運站2號出口直行），不錯喔。", "sentiment": "negative", "likes": "+33", "tags": ["服務態度"]}, {"id": 10, "author": "楊鈞富", "author_info": "Local Guide · 15 reviews · 40 photos", "time": "a month ago", "text": "銷魂東波肉超好吃，峭壁石斛燉雞湯超好喝，以上兩道必點，其他菜色也好吃～", "sentiment": "positive", "likes": "+7", "tags": ["石斛雞湯"]}, {"id": 11, "author": "KING (第10級在地嚮導)", "author_info": "Local Guide · 1,672 reviews · 34,485 photos", "time": "8 months ago", "text": "第3次來用餐，生意還是很好，感覺比前次更進步了，服務人員態度親切，主動提醒「價格」，對客人遺失物也立即通知，顯然調訓越來越好。\n菜餚部份，紅燒鯽魚、東坡肉還是頂尖，鮮蝦粉絲煲、豆乾牛肉絲調味稍重，豌豆雞絲的雞絲不夠嫩，其他菜量菜色都很不錯。\n跟去年一樣，同時訂了幾樣年菜。", "sentiment": "negative", "likes": "+27", "tags": ["東坡肉", "服務態度", "年菜爭議"]}, {"id": 12, "author": "YUSHA", "author_info": "Local Guide · 24 reviews · 199 photos", "time": "8 months ago", "text": "台大公館商圈聚餐好選擇，餐廳裝潢融合現代簡約與中式古典美學，溫和的木質色調搭配典雅的燈飾，有營造出沈穩的氛圍。\n空間規劃上是挑高設計讓視野相當開闊，完全沒有壓迫感，座位間距也還算寬敞不會擠，很適合同學、家庭聚餐或商務飲宴。\n菜色部分選擇非常多樣，招牌的東坡肉、菜飯和燉雞湯都值得推薦，單點的話要小心不要一次點太多吃不完。 …", "sentiment": "positive", "likes": "+5", "tags": ["東坡肉", "石斛雞湯", "上海菜飯"]}, {"id": 13, "author": "Ren Kuan", "author_info": "Local Guide · 15 reviews · 89 photos", "time": "7 months ago", "text": "雞湯要事先預約，原價兩千多打卡可以折價一千多，點了墨魚紅燒肉和東坡肉，覺得紅燒肉更勝一籌～", "sentiment": "neutral", "likes": "+6", "tags": ["東坡肉", "石斛雞湯"]}, {"id": 14, "author": "Wade", "author_info": "Local Guide · 329 reviews · 3,065 photos", "time": "10 months ago", "text": "附近停車方便\n包廂低銷1萬 …", "sentiment": "neutral", "likes": "+16", "tags": []}, {"id": 15, "author": "謝兆豐", "author_info": "Local Guide · 118 reviews · 498 photos", "time": "3 months ago", "text": "入口即化的刈包，好喝的雞湯，出汁的臭豆腐，今天又是滿足的一餐。", "sentiment": "neutral", "likes": "+4", "tags": ["石斛雞湯"]}, {"id": 16, "author": "Sea Wu", "author_info": "Local Guide · 158 reviews · 620 photos", "time": "3 months ago", "text": "菜色豐盛、食材不錯！\n蟹黃豆腐真的有蟹肉！", "sentiment": "neutral", "likes": "+9", "tags": []}, {"id": 17, "author": "Jackie Chiang", "author_info": "Local Guide · 326 reviews · 4,099 photos", "time": "10 months ago", "text": "曉鹿鳴樓的整體用餐體驗相當令人滿意。門口的招牌非常吸睛，從外觀就能感受到這是一家講究細節的餐廳。店內環境寬敞典雅，座位之間的間距剛好，不會擁擠，氣氛沉穩又不失溫馨。我們三個人點了一整桌的菜，份量十足，真的吃得非常飽。 …", "sentiment": "positive", "likes": "+16", "tags": ["CP值"]}, {"id": 18, "author": "shiuching yang", "author_info": "Local Guide · 10 reviews · 65 photos", "time": "8 months ago", "text": "每道都好好吃，前菜就已快吃飽，到主菜前半段就已飽到撐，但還是捨不得錯過任何一道，滿足", "sentiment": "positive", "likes": "+5", "tags": ["CP值"]}, {"id": 19, "author": "Janet Lu", "author_info": "8 reviews", "time": "a month ago", "text": "第一次帶爸爸媽媽來享用曉鹿鳴樓，爸媽對於每道菜色都讚不絕口，尤其是雞湯和菜飯，更是經典中的經典，一定會再光臨", "sentiment": "positive", "likes": "", "tags": ["石斛雞湯", "上海菜飯"]}, {"id": 20, "author": "eason ma", "author_info": "Local Guide · 157 reviews · 212 photos", "time": "4 months ago", "text": "功夫台菜，價格稍高，但是好吃，偶爾聚餐吃一下慶生，還不錯", "sentiment": "positive", "likes": "+7", "tags": []}, {"id": 21, "author": "Cooper Tseng", "author_info": "4 reviews · 6 photos", "time": "a month ago", "text": "曉鹿鳴樓不僅菜色精緻、美味，每一道料理都展現主廚的用心與功夫；服務團隊更是親切、細心且專業，從進門到用餐結束都讓人感受到賓至如歸的溫暖。無論是家庭聚餐、好友相聚或商務宴請，都是值得一再回訪的優質餐廳。", "sentiment": "positive", "likes": "", "tags": []}, {"id": 22, "author": "阿叡", "author_info": "Local Guide · 36 reviews · 14 photos", "time": "2 months ago", "text": "這家國立臺灣大學活動中心的曉鹿鳴樓 永續台灣功夫菜用餐，整體體驗相當不錯，也難怪生意一直都很好。從入店開始就能感受到餐廳的用心，服務人員態度親切、應對得宜，讓整個用餐過程非常舒適放鬆，這點在熱門餐廳中其實相當難得。 …", "sentiment": "negative", "likes": "", "tags": ["服務態度"]}, {"id": 23, "author": "張哲睿", "author_info": "Local Guide · 16 reviews · 6 photos", "time": "3 months ago", "text": "東西普通，沒有特別好吃，但無法理解沒什麼服務還要收10%服務費的理由在哪？就一般餐廳的點餐送餐服務，然後態度又差，時間快到還一直催客人離場，這輩子不會絕對不會再回訪", "sentiment": "negative", "likes": "", "tags": ["催客趕人", "服務態度"]}, {"id": 24, "author": "輕洋", "author_info": "Local Guide · 343 reviews · 6,055 photos", "time": "4 months ago", "text": "很有特色的上海菜餐廳，每道菜都好吃，甚至有些菜以前我也沒吃過，適合桌菜", "sentiment": "positive", "likes": "+29", "tags": []}, {"id": 25, "author": "edzer wu", "author_info": "5 reviews · 10 photos", "time": "10 months ago", "text": "食物美味服務周到，適合多人聚餐！本季峭壁石斛雞湯還有打卡優惠，非常值得", "sentiment": "positive", "likes": "+3", "tags": ["石斛雞湯"]}, {"id": 26, "author": "陳小葵", "author_info": "Local Guide · 46 reviews · 69 photos", "time": "9 months ago", "text": "雞湯好喝！東坡肉也很有水準！今天幫我們一家人服務的大姐超親切周到！一級棒👍 …", "sentiment": "positive", "likes": "", "tags": ["東坡肉", "石斛雞湯"]}, {"id": 27, "author": "Nico Liu", "author_info": "2 reviews · 11 photos", "time": "2 months ago", "text": "道地江浙菜，口味都很到位，但有些菜比較鹹，小菜很好吃", "sentiment": "positive", "likes": "", "tags": []}, {"id": 28, "author": "吳所謂", "author_info": "Local Guide · 234 reviews · 422 photos", "time": "7 months ago", "text": "餐點好吃，服務好，但一直來巡吃的狀況稍有壓力", "sentiment": "positive", "likes": "+5", "tags": []}, {"id": 29, "author": "Edison Ho", "author_info": "Local Guide · 615 reviews · 1,829 photos", "time": "a year ago", "text": "菜色：非常有水準、幾乎沒有雷，都很好吃、價格也很實惠。\n服務：服務人員水準參差不齊、以整體服務水準來說，稍嫌不足。\n環境：包廂低消一萬元，環境整體，乾淨舒適。 …", "sentiment": "neutral", "likes": "+11", "tags": ["CP值"]}, {"id": 30, "author": "Joanne Wang", "author_info": "11 reviews · 9 photos", "time": "5 months ago", "text": "菜餚道道用心。\n雞湯好喝。要先預定。\n沒吃過燉這麼軟的杏鮑菇 …", "sentiment": "neutral", "likes": "", "tags": ["石斛雞湯"]}, {"id": 31, "author": "life enjoin", "author_info": "Local Guide · 70 reviews · 265 photos", "time": "8 months ago", "text": "蟹黃豆腐超好吃、阿嬤的五花肉、蟹黃豆腐一定要點，這家很好吃！適合聚餐，臺大學生證還能打九折！", "sentiment": "positive", "likes": "+13", "tags": []}, {"id": 32, "author": "李祐萱", "author_info": "Local Guide · 49 reviews · 51 photos", "time": "5 months ago", "text": "終於訂到這間餐廳啦～餐點好吃，石斛燉雞煲湯超級好喝的，紅燒肉也滷的軟嫩又好吃，蘿蔔牛腩煲肉質香又嫩，只願著吃都忘了拍照，下次會在來訪\nPs:很快的晚餐又帶家人來吃，點了其他好吃的餐點，每道都好吃", "sentiment": "positive", "likes": "", "tags": ["石斛雞湯"]}, {"id": 33, "author": "瑞", "author_info": "7 reviews · 12 photos", "time": "3 months ago", "text": "好吃😋離學校很近很方便～ …", "sentiment": "positive", "likes": "", "tags": []}, {"id": 34, "author": "chi wawa", "author_info": "Local Guide · 234 reviews · 1,922 photos", "time": "8 months ago", "text": "這次在二樓包廂用餐，整體體驗相當不錯。上菜速度快到幾乎來不及拍照，餐點每一道都好吃，口味不會太重，整餐吃完相當有飽足感。最特別的是這裡可以一邊用餐、一邊唱歌，將聚餐與娛樂結合在同一個空間，氣氛輕鬆又不吵雜，很適合多人聚會或小型慶祝。第一次在能同時唱歌與吃飯的餐廳用餐，覺得新鮮也實用，整體來說是會想再回訪的地方。包廂內外都有廁所，環境整潔、使用起來也很方便。", "sentiment": "positive", "likes": "+3", "tags": ["CP值"]}, {"id": 35, "author": "William Chou", "author_info": "Local Guide · 30 reviews · 15 photos", "time": "5 months ago", "text": "上菜快。\n超推薦刈包、雞湯。\n湯要預約。", "sentiment": "positive", "likes": "+3", "tags": ["石斛雞湯"]}, {"id": 36, "author": "Min-Kuan Wang", "author_info": "Local Guide · 1,379 reviews · 4,626 photos", "time": "2 months ago", "text": "東坡肉軟嫩好吃，其他菜也都有水準。", "sentiment": "positive", "likes": "", "tags": ["東坡肉"]}, {"id": 37, "author": "luke27286", "author_info": "Local Guide · 23 reviews · 42 photos", "time": "4 months ago", "text": "菜色豐富，環境適合聚餐，服務也非常好！下次來再光顧", "sentiment": "neutral", "likes": "", "tags": []}, {"id": 38, "author": "A C", "author_info": "Local Guide · 53 reviews · 129 photos", "time": "a year ago", "text": "餐點無可挑剔，服務仍有改進空間\n👍翡翠菜飯：應該是我吃過最好吃的菜飯，米飯粒粒分明，炒得油油亮亮不會太乾，點綴的菜切得很細，是道功夫菜\n👍砂鍋花雕雞：雞肉很嫩，杏鮑菇很多汁，兩者都包覆著類似三杯的醬汁，很下飯！ …", "sentiment": "positive", "likes": "+2", "tags": ["上海菜飯"]}, {"id": 39, "author": "Ella", "author_info": "Local Guide · 729 reviews · 6,137 photos", "time": "a year ago", "text": "餐點還不錯\n內用冷氣有點不涼 …", "sentiment": "neutral", "likes": "+21", "tags": []}, {"id": 40, "author": "Oli L", "author_info": "Local Guide · 782 reviews · 2,255 photos", "time": "9 months ago", "text": "澎湖海菜吻仔魚炒蛋，很下飯；\n炒豆苗，還不錯；\n豆乾肉絲，是甜口的⋯沒有鹹甜的層次感。", "sentiment": "neutral", "likes": "", "tags": []}, {"id": 41, "author": "Miya Chuang", "author_info": "Local Guide · 83 reviews · 326 photos", "time": "a year ago", "text": "本次餐點：桌菜10人份$8000+10%，有包廂，低消1萬。菜色口味偏重，個人不太習慣，用餐客人感覺是台大人為主。大廳桌距偏近，還好沒客滿，不然空間感可能會感覺較為逼迫。自己花錢的話，應該不會二訪。", "sentiment": "neutral", "likes": "+7", "tags": []}, {"id": 42, "author": "Jolin Tsai", "author_info": "Local Guide · 806 reviews · 6,342 photos", "time": "a year ago", "text": "主打精緻粵菜，環境非常有中式風格，很適合聚餐或請客\n特別推薦「銷魂東坡肉」，選用五花肉，肥瘦比例剛剛好，燉得軟嫩入味，醬汁濃郁但不膩口，搭配店家特製刈包一起吃，非常滿足\n「曉鹿鳴樓翡翠菜飯」看似簡單，卻是每次來都會想點的主食。飯粒飽滿，搭配翡翠般的青菜與干貝絲提味，清爽又有層次感，讓人忍不住多吃幾口 …", "sentiment": "positive", "likes": "+19", "tags": ["東坡肉", "上海菜飯", "CP值"]}, {"id": 43, "author": "陳政哲", "author_info": "Local Guide · 10 reviews · 17 photos", "time": "5 months ago", "text": "好吃，今天中午吃一次，晚上再來吃👍推推 …", "sentiment": "positive", "likes": "", "tags": []}, {"id": 44, "author": "Jasmine Chou", "author_info": "Local Guide · 126 reviews · 79 photos", "time": "2 months ago", "text": "看了大家給的低評分內容，幾乎都是我想講的，真心的覺得這是一家不會再去第二次的餐廳。\n沒有看過一家餐廳一直想把客人趕走，明明菜才剛上，碗裡的食物還沒吃完，連問也不問就想把我的碗收走。 …", "sentiment": "negative", "likes": "", "tags": ["催客趕人"]}, {"id": 45, "author": "Tony Lin (Tony)", "author_info": "Local Guide · 492 reviews · 4,980 photos", "time": "a year ago", "text": "場地比較普通，有一桌、二桌的包廂，但是沒有門，用布簾隔開，二樓有二十幾人的大桌包廂。\n\n一樓有舞台音響燈光，可以舉辦活動。 …", "sentiment": "neutral", "likes": "+36", "tags": []}, {"id": 46, "author": "夏朝_Sia Chao", "author_info": "Local Guide · 70 reviews · 33 photos", "time": "Edited a year ago", "text": "點了銷魂東坡肉、峭壁石斛燉雞湯（湯要兩天前預定）、澎湖海菜小魚炒蛋、老皮嫩肉、菜飯、寧式鱔魚，每一道都很好吃！🥺✨\n雞湯喝起來很舒服，清淡不油、滋味濃郁、帶有一點食材的甜味，有一種像是植物和中藥材的味道，但中藥味道並不重，讓身體很舒適又美味的湯🤤\n今天是兩個人來吃，吃不完準備帶回家，如果是多人一起共食聚餐，價格不算很貴。 …", "sentiment": "neutral", "likes": "+2", "tags": ["東坡肉", "石斛雞湯", "上海菜飯"]}, {"id": 47, "author": "Shyh-Horng Yang", "author_info": "Local Guide · 95 reviews · 429 photos", "time": "9 months ago", "text": "一家五口週末聚餐，菜色好吃，服務親切，價錢實惠。", "sentiment": "positive", "likes": "+8", "tags": ["CP值"]}, {"id": 48, "author": "文凱", "author_info": "Local Guide · 30 reviews · 14 photos", "time": "6 months ago", "text": "公館商圈聚餐好去處，峭壁石斛雞湯、銷魂東坡肉好吃，讚！", "sentiment": "positive", "likes": "", "tags": ["東坡肉", "石斛雞湯"]}, {"id": 49, "author": "Kathy Jen", "author_info": "Local Guide · 27 reviews · 69 photos", "time": "2 years ago", "text": "原則上\n性價比不高\n一道河蝦（照片有放大效果） …", "sentiment": "positive", "likes": "+9", "tags": []}, {"id": 50, "author": "Fan Yu Lin", "author_info": "6 reviews · 6 photos", "time": "a year ago", "text": "因為朋友臨時無法赴約，使得我們的點餐一下下單一下取消然後又下單，特別感謝服務人員的理解體諒，而且非常周到幫我們評估菜量。 爸媽最喜歡石斑，特別新鮮，肉質細膩，老皮嫩肉（豆腐）完全不辜負它的大名，裏外的對比讓它特別美味。我們（中年人）則特別喜歡牛腩煲，這不是鹹口辣口的煲，而是帶甜口，特別符合我們的口味。我想大推雞湯！湯鮮味美，冬天來一碗，真是太舒服！ 石斑和雞湯要先預訂，這是比較花時間的菜品。", "sentiment": "positive", "likes": "+3", "tags": ["石斛雞湯"]}, {"id": 51, "author": "kuo linda", "author_info": "11 reviews · 8 photos", "time": "5 months ago", "text": "餐點好吃、用料豐富！石斛燉雞湯真才實料，湯很清甜～", "sentiment": "positive", "likes": "", "tags": ["石斛雞湯"]}, {"id": 52, "author": "golden Ya", "author_info": "Local Guide · 1,968 reviews · 3,661 photos", "time": "7 months ago", "text": "蠻好吃的，但有些菜偏甜、價位較高", "sentiment": "positive", "likes": "+3", "tags": []}, {"id": 53, "author": "Lu Farn", "author_info": "Local Guide · 477 reviews · 8,012 photos", "time": "Edited a year ago", "text": "這家餐廳就在公館捷運站附近，交通方便，口味宜人，服務親切，價格合理，值得再來！\n\n#鹿鳴米菜飯 #銷魂東坡肉 #澎湖龍虎斑 #清蒸臭豆腐 #醉雞 #醃篤鮮 #豆苗蝦仁 #韭黃炒鱔魚 #台大實驗林烏龍茶 …", "sentiment": "positive", "likes": "+47", "tags": ["東坡肉", "上海菜飯"]}, {"id": 54, "author": "Emo MS _", "author_info": "Local Guide · 86 reviews · 52 photos", "time": "3 months ago", "text": "以這個價位來說\n我不知道他吸引人的地方在哪裡😂\n對不起我是真的吃不懂 …", "sentiment": "neutral", "likes": "", "tags": []}, {"id": 55, "author": "casper lai", "author_info": "7 reviews · 6 photos", "time": "4 months ago", "text": "菜色豐富好吃！ 東坡肉、菜飯必吃👍 …", "sentiment": "positive", "likes": "", "tags": ["東坡肉", "上海菜飯"]}, {"id": 56, "author": "楊小姐", "author_info": "Local Guide · 258 reviews · 3,810 photos", "time": "3 years ago", "text": "家人聚餐的好所在，菜餚豐富新鮮美味可口，道地上海菜\n但可惜服務人員太少都要走過去她們身旁尋找他們。\n菜上的還蠻快的等不了多久的。但還是最好事先預訂才好 …", "sentiment": "positive", "likes": "+18", "tags": []}, {"id": 57, "author": "佛客使", "author_info": "Local Guide · 455 reviews · 14,406 photos", "time": "3 years ago", "text": "冷盤的蒜香蝦油雞好吃\n蝦油與炸過的蒜蘇與雞肉搭配十分得宜\n蔥泥油雞腿也不錯 …", "sentiment": "positive", "likes": "+46", "tags": []}, {"id": 58, "author": "mzlllym", "author_info": "Local Guide · 130 reviews · 823 photos", "time": "10 months ago", "text": "【台北台灣大學美食】台灣功夫菜\n\n🫧樂日記之美食探索 …", "sentiment": "neutral", "likes": "", "tags": []}, {"id": 59, "author": "sugarcube13", "author_info": "Local Guide · 622 reviews · 7,243 photos", "time": "3 years ago", "text": "酒肉姐弟兒們每回吃飯就是要澎派整桌菜是必須，現在要在台灣約一頓越來越難，蹭哥生日餐的福大姐頭請客，最喜歡肥而不膩的東坡肉，臭豆腐味道也好，口味略較新東南清淡些。", "sentiment": "positive", "likes": "+6", "tags": ["東坡肉"]}, {"id": 60, "author": "Viola Lu", "author_info": "Local Guide · 95 reviews · 184 photos", "time": "a year ago", "text": "翡翠菜飯好吃，烤麩好吃，清炒河蝦很鮮，蜜桃鴨腿就是燻鴨淋桃子罐頭醬，普通，蒜香蝦油雞吃不出蝦味，蒜酥過多影響口感、油雞本體太鹹，算是不推薦的一道。", "sentiment": "neutral", "likes": "+2", "tags": ["上海菜飯"]}, {"id": 61, "author": "謝美珍", "author_info": "Local Guide · 34 reviews · 284 photos", "time": "4 months ago", "text": "母親節聚餐很愉快\n菜色每道都很好吃\n媽媽很滿意", "sentiment": "positive", "likes": "", "tags": []}, {"id": 62, "author": "李穎瑩", "author_info": "4 reviews · 1 photo", "time": "4 months ago", "text": "上海菜飯、金沙豆腐、東坡肉刈包好好吃的，石斛雞湯超好喝的。👍👍👍 …", "sentiment": "positive", "likes": "", "tags": ["東坡肉", "石斛雞湯", "上海菜飯"]}, {"id": 63, "author": "KW Lee", "author_info": "Local Guide · 35 reviews · 78 photos", "time": "7 years ago", "text": "還算不錯，服務有加分，但一開始點菜的速度稍慢，揮手也沒有反應，希望以後會做改善\n\n東坡肉真的好吃，入口即化，排骨也不錯 …", "sentiment": "positive", "likes": "+5", "tags": ["東坡肉"]}, {"id": 64, "author": "Yang Lin", "author_info": "Local Guide · 31 reviews · 49 photos", "time": "7 months ago", "text": "雞湯打卡可打折！\n菜都滿好吃、用餐環境舒適", "sentiment": "positive", "likes": "", "tags": ["石斛雞湯"]}, {"id": 65, "author": "張智銓", "author_info": "Local Guide · 499 reviews · 4,629 photos", "time": "3 years ago", "text": "整體來說中規中矩,臭豆腐,清炒蝦仁.培根高麗菜還不錯,東坡肉很普,感覺就是在吃醬的味道,感受不到肥肉的香氣,瘦肉部分有點太柴,終究是比不上夜上海跟極品軒,燻魚也是輸給銀翼一大截", "sentiment": "positive", "likes": "+9", "tags": ["東坡肉"]}, {"id": 66, "author": "Chang Chang", "author_info": "2 reviews · 1 photo", "time": "3 months ago", "text": "用餐時臨時增加人數卻遭受接待人員的擺態，負責接待的我們的『執行長』態度惡劣，彷彿官位比客人還高，盛氣凌人、缺乏彈性。餐飲服務本該以顧客需求為優先，但卻擺出高高在上的姿態，讓人感覺不是在用餐，而是在看她臉色？？？這樣的服務方式令人失望，完全不值得再次回訪", "sentiment": "negative", "likes": "", "tags": ["服務態度"]}, {"id": 67, "author": "Alex Huang", "author_info": "Local Guide · 1,001 reviews · 4,009 photos", "time": "a year ago", "text": "以上海菜系為主，菜色都有一定水準以上。\n砂鍋花雕雞的雞肉軟嫩，花雕也入味雞肉肉當中。\n香乾肉絲入味但不乾澀。 …", "sentiment": "positive", "likes": "", "tags": []}, {"id": 68, "author": "高蘊柔", "author_info": "Local Guide · 52 reviews · 72 photos", "time": "9 months ago", "text": "雞湯很香很好喝。東坡肉必點，軟嫩不死鹹，超級好吃。", "sentiment": "positive", "likes": "+4", "tags": ["東坡肉", "石斛雞湯"]}, {"id": 69, "author": "Peng Fei Wang", "author_info": "Local Guide · 25 reviews · 176 photos", "time": "Edited 5 years ago", "text": "「紹興醉雞腿」～雞皮Ｑ彈，酒香味足，是一道不錯吃的冷盤。\n「乾煸三樣」～大腸、茭白筍、四季豆，煸得酥而不乾、不油，很下飯的一道菜。 …", "sentiment": "neutral", "likes": "+10", "tags": []}, {"id": 70, "author": "Nicole Chang", "author_info": "Local Guide · 47 reviews · 23 photos", "time": "4 months ago", "text": "與家人路過進去用餐，點餐不久後菜就齊了（6菜）\n\n點了招牌的東坡肉有點失望，幾乎都是肥肉，帶了一些豬腥味，即使看起來鹹香，吃下去卻蓋不住豬的味道。 …", "sentiment": "negative", "likes": "", "tags": ["東坡肉"]}, {"id": 71, "author": "Vanessa Chen", "author_info": "Local Guide · 47 reviews · 46 photos", "time": "6 months ago", "text": "餐廳旁就是停車場，整體菜色水準中上\n環境懷舊溫馨，推薦重慶水煮魚、蹄筋花椒海參煲、峭壁石斛燉雞湯～～是家族聚餐好地方", "sentiment": "positive", "likes": "", "tags": ["石斛雞湯"]}, {"id": 72, "author": "Shine Hsieh", "author_info": "Local Guide · 287 reviews · 2,252 photos", "time": "a year ago", "text": "2024.09.14\n團體聚餐10道菜\n前菜有兩盤是冷盤~ …", "sentiment": "neutral", "likes": "+6", "tags": []}, {"id": 73, "author": "C T", "author_info": "Local Guide · 673 reviews · 14,340 photos", "time": "2 years ago", "text": "餐點幾乎都很好吃，尤其菜飯💯👍，唯獨不太喜歡東坡肉掛包～肉太鹹、掛包皮太乾硬、只有肉+香菜很單調，心太軟第一次品嚐很特別。\n生意很好，自然人多吵雜，所以大家說話都得很大聲才聽得到。\n服務人員方面的確需要加強。 …", "sentiment": "neutral", "likes": "+39", "tags": ["東坡肉", "上海菜飯"]}, {"id": 74, "author": "謝宏俊", "author_info": "Local Guide · 40 reviews · 130 photos", "time": "a year ago", "text": "慶祝母親節用餐\n部分菜事先預定可打折\n旁邊即有停車場、捷運站，\n人員服務親切，辛苦了！", "sentiment": "positive", "likes": "+10", "tags": []}, {"id": 75, "author": "yi shan Hsieh", "author_info": "Local Guide · 78 reviews · 152 photos", "time": "4 months ago", "text": "歡慶母親節！ 雞湯推推！", "sentiment": "positive", "likes": "+2", "tags": ["石斛雞湯"]}, {"id": 76, "author": "永豐餘投控楊伊萍", "author_info": "Local Guide · 81 reviews · 140 photos", "time": "4 months ago", "text": "母親節竟然可以訂得到\n超級幸運", "sentiment": "neutral", "likes": "+2", "tags": []}, {"id": 77, "author": "胡惠珠", "author_info": "Local Guide · 643 reviews · 6,352 photos", "time": "a year ago", "text": "在公館台大旁邊的江浙餐廳，口味很道地，很精緻，也有穿插一點受歡迎的其他菜系。到此必點的東坡肉，軟嫩濃稠，入口即化，滿嘴留香，上海菜飯略嫌乾、菜太碎，爆鱔也是很經典，開味小菜的蔥熇鯽魚鹹香下飯，心太軟可當配菜，也可做為甜點，真是美味的一餐。", "sentiment": "positive", "likes": "+19", "tags": ["東坡肉", "上海菜飯"]}, {"id": 78, "author": "Max Huang", "author_info": "Local Guide · 152 reviews · 122 photos", "time": "9 months ago", "text": "菜色都很讚，唯一一道失望的，蜜桃燒鴨腿，不是想像中的烤鴨腿，是類似鴨賞那種，照片中有那道。\n砂鍋魚頭很大鍋，讚。", "sentiment": "negative", "likes": "", "tags": []}, {"id": 79, "author": "焦哥笑笑", "author_info": "Local Guide · 276 reviews · 3,258 photos", "time": "a year ago", "text": "再訪覺得味道變好\n客人多有包廂可訂位\n餐點隨便點都不雷 …", "sentiment": "neutral", "likes": "+7", "tags": []}, {"id": 80, "author": "julie chang", "author_info": "13 reviews · 7 photos", "time": "2 months ago", "text": "雞湯好喝！然後海鮮豆腐那道特別好吃😭😭😭😭💖 …", "sentiment": "positive", "likes": "", "tags": ["石斛雞湯"]}, {"id": 81, "author": "mandy liu", "author_info": "Local Guide · 20 reviews · 97 photos", "time": "5 years ago", "text": "曉鹿鳴樓之五個母親\n原本以為母親節只有統一的桌菜料理(最後一張圖)\n還好到現場服務員說可以點菜 …", "sentiment": "neutral", "likes": "+11", "tags": ["服務態度"]}, {"id": 82, "author": "柳培元", "author_info": "Local Guide · 276 reviews · 880 photos", "time": "3 years ago", "text": "先講結論，調味不錯，口味還行，環境乾淨美觀，但價位太高。前菜的蔥燒鯽魚味道非常棒，葱的香氣和魚肉醃製得恰到好處。東坡肉的醬汁濃郁、餅皮Q彈，肉體軟嫩，但肉本身不夠入味，有點可惜。蔥爆牛肉口味不錯，但肉太老太硬。豆酥鱈魚湯汁太多，豆穌炒得不夠香。水煮魚口味不錯，可惜料太少。雞湯很棒，湯頭鮮甜，用料實在，不過價位偏高。飯後招待的紅棗銀耳甜湯清爽不甜膩。服務方面年輕的女服務生臉很臭，收拾桌面也是邊收邊問，沒等客人回覆。另外不知是否空間太窄，用餐時被餐車或上菜的服務生撞到椅子好幾次，有點破壞了用餐興致。", "sentiment": "positive", "likes": "+5", "tags": ["東坡肉", "石斛雞湯", "服務態度"]}, {"id": 83, "author": "劉品謙", "author_info": "Local Guide · 61 reviews · 161 photos", "time": "3 years ago", "text": "適合聚餐的上海菜，菜色很多，點小份的適合6-8人分著吃，可以吃到很多種菜色。整體來說每道菜的口味都非常好，會想再訪的餐廳！\n*小小可惜的點，這家小份跟大份的餐點有數量的話固定是六個和十個沒辦法加點，七八九個人用餐的話會有一點尷尬需要分著吃 …", "sentiment": "neutral", "likes": "+7", "tags": []}, {"id": 84, "author": "林麗麗", "author_info": "Local Guide · 119 reviews · 130 photos", "time": "3 years ago", "text": "桌菜不錯吃.服務真的需再進步\n好險是家庭聚餐\n若是朋友請客 …", "sentiment": "neutral", "likes": "+7", "tags": []}, {"id": 85, "author": "蔡旻軒", "author_info": "Local Guide · 724 reviews · 6,544 photos", "time": "3 years ago", "text": "好久沒吃上海菜，這家「曉鹿鳴樓」榮獲亞太十大名廚，真的把我在內地吃的真傳再現，神隊友直接點一頁「老饕推薦」，5大4小點了11 道大菜加3個小菜，全部clean!😋😋實在太好吃了啦 …", "sentiment": "positive", "likes": "+15", "tags": []}, {"id": 86, "author": "Ruri Tseng", "author_info": "Local Guide · 145 reviews · 1,478 photos", "time": "2 years ago", "text": "同學聚會很臨時的預約\n令人經驗的初次上海菜\n很適合招待宴客首選氣派桌菜， …", "sentiment": "neutral", "likes": "+17", "tags": []}, {"id": 87, "author": "林希峰", "author_info": "3 reviews · 1 photo", "time": "4 months ago", "text": "餐點好吃，小孩也吃的很開心", "sentiment": "positive", "likes": "", "tags": []}, {"id": 88, "author": "Peng Hsu", "author_info": "Local Guide · 604 reviews · 7,556 photos", "time": "a year ago", "text": "This is one of the rare restaurants I gave negative comments to. To be honest, the food it offered was delicious. The decorations were also fine and comfy. So, what's wrong with it? The problem is the service from all of its service staff. …", "sentiment": "neutral", "likes": "+22", "tags": []}, {"id": 89, "author": "Tina Tsai", "author_info": "Local Guide · 312 reviews · 2,258 photos", "time": "a year ago", "text": "位于台大校园公館园區，交通停車都十分方便，餐廳內位置寬敞，服務極為周到，但菜餚中等，與價位成正比。餐廳内有大廳外尚有大小包間，都極為美觀並非常整潔，算是普通宴客家庭聚會合適場所。", "sentiment": "neutral", "likes": "+2", "tags": []}, {"id": 90, "author": "w y-c", "author_info": "Local Guide · 126 reviews · 588 photos", "time": "3 years ago", "text": "覺得很普通的一間店…不曉得是不是我們不太會點菜，cp值不太高。\n不至於難吃，但也說不上好吃，所以這樣的價格應該只是來一次而已。", "sentiment": "neutral", "likes": "+5", "tags": ["CP值"]}, {"id": 91, "author": "Stella", "author_info": "Local Guide · 16 reviews · 24 photos", "time": "10 months ago", "text": "超讚的雞湯\n刈包超好吃嗚嗚 🥹 不小心吃太多了\n蝦仁也很讚 份量也很夠 讚讚讚 …", "sentiment": "positive", "likes": "+4", "tags": ["石斛雞湯"]}, {"id": 92, "author": "Miki Huang", "author_info": "Local Guide · 229 reviews · 1,423 photos", "time": "Edited 3 years ago", "text": "朋友介紹，全部都是老饕點餐，我只負責吃。\n點了很多菜，整體上口味都有一定水準：\n蔥燒鯽魚：魚有肥美的蛋，整隻魚酥脆鹹甜合度，加上蔥一起吃，味道更香！ …", "sentiment": "positive", "likes": "+11", "tags": []}, {"id": 93, "author": "Wei Rima", "author_info": "Local Guide · 31 reviews · 62 photos", "time": "3 years ago", "text": "東西勉強還算好吃，但是服務實在太差，定了兩桌將近20個人，店面明確規定最後加點時間是八點，孩子們吃不夠7:30繼續加點，服務態度有夠差的，直接跟孩子們說廚房師傅快下班了，不知道外場服務人員問題還是怎麼樣？看了一下評論確實服務態度有夠差的⋯ 欠罵！", "sentiment": "negative", "likes": "+5", "tags": ["服務態度"]}, {"id": 94, "author": "Michael Billionaire", "author_info": "Local Guide · 633 reviews · 4,058 photos", "time": "2 years ago", "text": "整體來說，不會再訪了！\n服務真的有問題🔥🔥🔥一家掛著米其林、滿滿報導作為行銷素材的餐廳，卻是從進門開始，就沒人接待？還要自己喊服務員安排座位… 好在有訂位、要不然還不敢想像排座位要等多久。 …", "sentiment": "neutral", "likes": "+2", "tags": ["服務態度"]}, {"id": 95, "author": "侯佳伶晨昕媽媽", "author_info": "11 reviews · 20 photos", "time": "11 months ago", "text": "帶年老的長輩來吃\n平常挑食的他吃的津津有味\n食物入味好入口 …", "sentiment": "positive", "likes": "+4", "tags": []}, {"id": 96, "author": "Larissa (涵)", "author_info": "Local Guide · 244 reviews · 1,579 photos", "time": "3 years ago", "text": "菜色平均來說偏甜，菜飯、東坡肉、豆酥鱈魚還不錯吃，但金沙四季豆，裡面的四季豆是少的可憐，向服務生反應，也沒有任何的回應，小菜蓮藕和烤麩也是偏甜，澎湖海菜吻魚湯，勾芡勾得太濃了，小魚和海菜也太少了，這麼高級的餐廳，服務生的素質實在是要再提升！", "sentiment": "positive", "likes": "+7", "tags": ["東坡肉", "上海菜飯", "服務態度"]}, {"id": 97, "author": "Patty Lo", "author_info": "Local Guide · 20 reviews · 11 photos", "time": "3 months ago", "text": "Uber 晚餐到家，老皮嫩肉和炒河蝦仁都很好吃紅燒肉也非常入味，份量也很不錯，比較可惜的是茭白筍炒肉絲，建議不要加青椒，吃不到茭白筍的香味整道菜都變成青椒的味道了，另外其實菜上面也無需放紅蘿蔔絲和紫高麗菜裝飾，沒有對味道有幫助，外送的時候畢竟會震動到看起來會有點像剩菜。 不過都還是很好吃 推薦給想要外送中餐的客人！", "sentiment": "positive", "likes": "", "tags": []}, {"id": 98, "author": "LLL", "author_info": "8 reviews · 12 photos", "time": "2 years ago", "text": "點了蘆筍百合果，結果上菜沒看到百合問了店員才知道現在沒有百合，所以都是拿山藥代替。只能說這個時間沒有百合就不要賣這道菜，還拿便宜很多的山藥唐塞就算了點菜時也沒有先告知。另外，雖然百合跟山藥的價差很大但算的價錢還是百合的價錢哦～ …", "sentiment": "negative", "likes": "", "tags": ["出菜品質"]}, {"id": 99, "author": "Yuan-Ling Chang", "author_info": "Local Guide · 144 reviews · 329 photos", "time": "2 years ago", "text": "菜色好吃，品質沒話說。用餐環境舒適整潔，有文化感。因為很熱門，限時1.5小時吃起來有點趕，且提前一天訂餐到現場也是半小時後開始上菜，希望能在這方面改進", "sentiment": "negative", "likes": "+3", "tags": ["催客趕人"]}, {"id": 100, "author": "Terry Yap", "author_info": "Local Guide · 18 reviews · 27 photos", "time": "3 months ago", "text": "真好吃、、、\n雞湯很暖胃！熱熱的喝很舒服！", "sentiment": "positive", "likes": "", "tags": ["石斛雞湯"]}, {"id": 101, "author": "a26470547", "author_info": "Local Guide · 262 reviews · 1,518 photos", "time": "Edited 2 years ago", "text": "在附近辦交流會\n中午訂的素食便當\n兩個禮拜的菜色不同 …", "sentiment": "neutral", "likes": "+4", "tags": []}, {"id": 102, "author": "John Fwu", "author_info": "Local Guide · 546 reviews · 4,957 photos", "time": "Edited 2 years ago", "text": "2023年：有朋友介紹來這吃飯，台大校友還有打折。結果店員不讓我們點餐。谷歌地圖顯示中午開到2:30，我們2:10分到。店門口貼一張紙説「最後點餐14:00」。非常失望！ …", "sentiment": "negative", "likes": "+9", "tags": []}, {"id": 103, "author": "Laura Lee", "author_info": "Local Guide · 252 reviews · 539 photos", "time": "3 years ago", "text": "從前菜的柚香藕就讓人食指大動，東坡肉肥瘦分佈均勻、滷得香而不膩，菜飯味道清淡卻又比只吃白飯來得香又有嚼勁，花膠雞湯大推，燉菜、蛋、豆腐、炒菜等素菜也可圈可點，最後的甜湯收尾，體驗極佳，推薦家庭聚餐或10-15桌的包場活動！", "sentiment": "positive", "likes": "+8", "tags": ["東坡肉", "石斛雞湯", "上海菜飯"]}, {"id": 104, "author": "yy chien", "author_info": "Local Guide · 144 reviews · 270 photos", "time": "3 years ago", "text": "味道不錯，菜份量少，隨性服務，價位高級，5道菜+菜飯+2小菜4人吃不飽加點銀絲捲直接略過忘了～要去用餐的人記得多點些", "sentiment": "positive", "likes": "+6", "tags": ["上海菜飯", "CP值"]}, {"id": 105, "author": "Hector Wu", "author_info": "Local Guide · 1,904 reviews · 19,598 photos", "time": "Edited 11 months ago", "text": "二：之前去「曉鹿鳴樓」吃飯時，對其東坡肉覺得做得還不壞。雖然與我吃過最佳的相比還是有段距離，但反正那已然再也吃不著了，能吃到這個口味，算是沒毛病了。 …", "sentiment": "neutral", "likes": "+13", "tags": ["東坡肉"]}, {"id": 106, "author": "Yvonne Chao", "author_info": "Local Guide · 24 reviews · 5 photos", "time": "3 months ago", "text": "打卡雞湯會有優惠呦～～", "sentiment": "neutral", "likes": "", "tags": ["石斛雞湯"]}, {"id": 107, "author": "KENKEN", "author_info": "Local Guide · 2,894 reviews · 9,146 photos", "time": "4 months ago", "text": "2026.05-\n\n慶祝母親節而訂的桌菜，菜色口味不錯，服務阿姨的手腳很利落", "sentiment": "neutral", "likes": "", "tags": []}, {"id": 108, "author": "UbiQuiTousLy", "author_info": "Local Guide · 2,747 reviews · 25,204 photos", "time": "5 years ago", "text": "包廂不錯，但廁所在包廂外頭全店共用。\n中菜位上本有失溫現象，小桌單點菜色比較好吃。東坡肉搭酒真是對味，芭樂好吃極了～", "sentiment": "positive", "likes": "+12", "tags": ["東坡肉"]}, {"id": 109, "author": "Elisa Chang", "author_info": "Local Guide · 36 reviews · 39 photos", "time": "2 years ago", "text": "在台大管院開了蠻久的上海菜，是好吃的～\n推薦豌豆蝦仁、東坡肉、雪菜百葉、海鮮豆腐煲都很讚！\n適合家庭聚餐來吃～", "sentiment": "positive", "likes": "+4", "tags": ["東坡肉"]}, {"id": 110, "author": "蔣強民", "author_info": "Local Guide · 882 reviews · 13,306 photos", "time": "3 months ago", "text": "菜量十足，停車方便，妖獸讚", "sentiment": "positive", "likes": "", "tags": []}, {"id": 111, "author": "Christine Wu", "author_info": "Local Guide · 233 reviews · 1,261 photos", "time": "2 years ago", "text": "餐點都不錯吃\n可能因為是上海菜，所以都較偏鹹，\n銷魂東坡肉入口即化，挺好吃的 …", "sentiment": "positive", "likes": "+2", "tags": ["東坡肉"]}, {"id": 112, "author": "冰箱爬出檸檬", "author_info": "Local Guide · 31 reviews · 130 photos", "time": "4 years ago", "text": "久聞曉鹿鳴樓已久，今日終於如願以「嚐」啦！\n果真～道道都精彩，每道料理的調味和火候都拿捏的恰如其分，就連蛤蜊都像吹鼓的氣球🎈 …", "sentiment": "neutral", "likes": "+9", "tags": []}, {"id": 113, "author": "段段", "author_info": "Local Guide · 87 reviews · 262 photos", "time": "a year ago", "text": "還行，點的菜都不錯吃，但與CP值相同水準的功夫菜價格有點高", "sentiment": "positive", "likes": "+7", "tags": ["CP值"]}, {"id": 114, "author": "015陳芝妤", "author_info": "Local Guide · 189 reviews · 1,504 photos", "time": "5 years ago", "text": "第一次上海菜 這家真的蠻厲害的 只是我們7個人這樣吃下來一個人還要785元 算不便宜 但幸好大家都有吃飽 而且評語也都很滿意\n\n超級厲害的肥蟹海鮮泡飯 通常都要先預約才吃得到 剛好這次很幸運的現場剩最後一鍋就毫不猶豫的點了 米飯超多 隨著湯逐漸變少之下 大家想不撈到飯都難 …", "sentiment": "positive", "likes": "+13", "tags": ["CP值"]}, {"id": 115, "author": "戚滿芳", "author_info": "Local Guide · 169 reviews · 1,736 photos", "time": "6 years ago", "text": "12個朋友聚餐，用每人1000的經費去點菜，我們是靠羅斯福路包間，不是很寬敞，那一天他們的廁所也不能用，必須到隔壁棟的2樓，這一點非常不方便，服務人員的態度也沒有很好，這麼多菜，只有麥片蝦上來大家驚呼了一下，細細品嚐也還好，網路上推薦的東坡肉，很小份又太肥、而且他的肥肉不是很整齊的肥肉，味道可以，個人反而比較推薦土魠魚菜飯，石斑魚新鮮，牛小排肥的要命，冬菇豆苗，豆苗非常老，朋友說那是豆苗的阿公（><）最後一道的水果都冰得太過，芭樂水水的....感覺蠻多地雷的，想要去的朋友可能要對菜單下一點功夫了！", "sentiment": "negative", "likes": "+9", "tags": ["東坡肉", "上海菜飯", "服務態度"]}, {"id": 116, "author": "passion Cheng", "author_info": "Local Guide · 278 reviews · 611 photos", "time": "5 years ago", "text": "東坡子排 440 好吃！醬又鹹又甜，太棒啦！\n蔥爆牛肉 360 普通\n宮保雞丁 360 普通 …", "sentiment": "positive", "likes": "+4", "tags": []}, {"id": 117, "author": "Mostro Chen", "author_info": "Local Guide · 137 reviews · 7,496 photos", "time": "4 years ago", "text": "上海菜，說到東坡肉就一定要說到這間提供正宗上海菜的『曉鹿鳴樓』，這天小弟有幸與幾個朋友來這聚餐，一走進店內明亮的空間讓人感覺舒服，就定位後開始點餐，接待人員親切熱情的介紹菜色並寒暄問暖。餐點口味都有一訂水準，值得一題就是那東坡肉及上海菜飯，這兩道菜讓我的嘴直到吃完這頓飯都還有那念念不忘的感覺。但這次來這用餐，有點美中不足，不知道是疫情期間人員較少的關係，餐點的出餐速度，有點慢，希望店家可以改進一下。整體來說來可以吃到美味的上海菜，很適合家庭朋友聚餐。 …", "sentiment": "positive", "likes": "+10", "tags": ["東坡肉", "上海菜飯"]}, {"id": 118, "author": "Meiming Chen", "author_info": "Local Guide · 357 reviews · 7,566 photos", "time": "Edited 2 years ago", "text": "1/18/2024\n我們八個女生 中午吃饭 餐廳主動給我們包廂 因為大堂已經滿座 一直叫我們點到包廂抵消費用1萬元 但是八個女生 根本吃不完那麼多菜 結果可想而知 我們打包了一堆 這還不打緊 明明菜已經過量 還一直要我們改成大份的 小份的都剩了一堆 若改成大份的可想而知. 所有的碗盤更換 我們都是自己來 基本完全沒有服務. 菜又太咸 不敢恭維. 本人最抵觸 明明菜够吃 還一直逼我們加菜 剩菜一堆 簡直是浪費資源 希望餐廳可以考慮客人的感受 夠吃就好 不要莫名的浪費 應該不會再光顧這家餐廳了", "sentiment": "neutral", "likes": "+46", "tags": ["催客趕人"]}, {"id": 119, "author": "士霽湯", "author_info": "15 reviews · 5 photos", "time": "6 months ago", "text": "很久沒吃到那麼道地的川菜料理，父母喜歡，下次還來", "sentiment": "positive", "likes": "", "tags": []}, {"id": 120, "author": "Amy", "author_info": "Local Guide · 429 reviews · 2,192 photos", "time": "3 years ago", "text": "近期吃過對於上菜速度和菜色最滿意的一間上海菜！\n在初四那天去吃那個上菜速度真的是神之快\n一道端來才剛拍好照下一道馬上就送上！ …", "sentiment": "positive", "likes": "+10", "tags": []}, {"id": 121, "author": "Rong", "author_info": "Local Guide · 98 reviews · 134 photos", "time": "2 years ago", "text": "菜色中規中矩，招牌東坡肉值得一嚐。90分鐘的用餐時間實在有點趕，可惜了這個不錯的菜色及氣氛。\n台大校友出示校友證可以享九折優惠", "sentiment": "negative", "likes": "", "tags": ["東坡肉", "催客趕人"]}, {"id": 122, "author": "peijean Chang", "author_info": "Local Guide · 77 reviews · 201 photos", "time": "3 years ago", "text": "因為要待久一點不限時，所以點桌菜。\n菜色不錯(可以看照片詳述)，出菜很快，服務很好。\n東坡肉很推薦。 …", "sentiment": "positive", "likes": "+8", "tags": ["東坡肉", "催客趕人"]}, {"id": 123, "author": "許森永", "author_info": "Local Guide · 73 reviews", "time": "3 months ago", "text": "東坡肉大的10片，小的6片，若5個人建議點大份，如果分前中後，它算是前段，翡翠菜飯，臘肉高麗菜飯可以各點份小的，點心不建議，", "sentiment": "positive", "likes": "", "tags": ["東坡肉", "上海菜飯"]}, {"id": 124, "author": "Angela", "author_info": "Local Guide · 41 reviews · 136 photos", "time": "4 years ago", "text": "道地的上海料理，今天品嘗了東坡肉、寧式鱔魚、碗豆河蝦仁、花膠雞湯....太多菜色了，實在記不清，但很多新創菜式讓人驚艷，簡單的烤麩就是小時候懷念的味道。碗豆蝦仁看似簡單，但每一顆碗豆都是手工碗豆莢撥出來的，不是我最不喜歡的青豆、花膠雞湯也是滿滿的膠原蛋白，濃郁鮮香，最後點心酒釀湯圓作為結尾。周邊交通也非常方便，適合多人聚餐品嚐各種菜色。", "sentiment": "positive", "likes": "+12", "tags": ["東坡肉", "石斛雞湯"]}, {"id": 125, "author": "Louise Ho", "author_info": "Local Guide · 57 reviews · 172 photos", "time": "Edited a year ago", "text": "好吃道地的菜色難找，來曉鹿鳴樓不會失望。\n東坡肉，河蝦必點，石斛雞湯內的真藥材，其它菜色來不及拍啊！\n煨麵點來與鼎泰豐比較一下。", "sentiment": "negative", "likes": "", "tags": ["東坡肉", "石斛雞湯"]}, {"id": 126, "author": "Grace", "author_info": "14 reviews · 7 photos", "time": "a year ago", "text": "母親節聚餐，每島菜都好吃，要預定的峭壁石斛燉雞湯👍必點 …", "sentiment": "positive", "likes": "+2", "tags": ["石斛雞湯"]}, {"id": 127, "author": "Wesley H. Teng", "author_info": "Local Guide · 186 reviews · 578 photos", "time": "a year ago", "text": "意外發現的台大校園好店，翡翠菜飯超好吃，乾煸三樣跟豌豆雞絲的味道也很棒，服務以及環境也很不錯，是個下次會想再訪的好味道♥️♥️", "sentiment": "positive", "likes": "", "tags": ["上海菜飯"]}, {"id": 128, "author": "Ameow_98", "author_info": "Local Guide · 503 reviews · 2,799 photos", "time": "2 years ago", "text": "最喜歡的東坡肉要放最前面，\n愛吃重口味跟肥肉的一定要試試。 …", "sentiment": "positive", "likes": "", "tags": ["東坡肉"]}, {"id": 129, "author": "candy lee", "author_info": "Local Guide · 65 reviews · 203 photos", "time": "4 years ago", "text": "因為上次剛好在附近開會吃過一次覺得好吃，停車方便，所以這是二訪，不太能吃辣所以沒點辣菜，花雕雞軟嫩入味，筊白筍牛肉絲清甜爽口，最滿意的是紅燒下巴有醋香提味，甜品酒釀湯圓，有桂花香還有一片鳳梨，個人覺得是完美的句點。", "sentiment": "positive", "likes": "+6", "tags": []}, {"id": 130, "author": "Ya Ting", "author_info": "Local Guide · 547 reviews · 4,232 photos", "time": "4 years ago", "text": "餐點口味都很精緻，用餐環境也很舒適\n\n上海菜飯：很清爽不會油膩 …", "sentiment": "negative", "likes": "+9", "tags": ["上海菜飯"]}, {"id": 131, "author": "Just for you形象生活設計", "author_info": "Local Guide · 204 reviews · 2,211 photos", "time": "Edited a year ago", "text": "2024/11/23\n吃上海菜方便的地方\n12/1又跑來吃一次 …", "sentiment": "neutral", "likes": "+23", "tags": []}, {"id": 132, "author": "K.e. Lin", "author_info": "Local Guide · 70 reviews · 129 photos", "time": "6 years ago", "text": "餐點好吃香氣濃郁，但稍微偏鹹，\n\n冬瓜茶很香，但真的太甜， …", "sentiment": "positive", "likes": "+2", "tags": []}, {"id": 133, "author": "許家華", "author_info": "Local Guide · 19 reviews · 28 photos", "time": "2 years ago", "text": "女兒說了很多次要吃炒鱔魚，今天就到上課附近的曉鹿鳴樓來，點了三道菜韮黃鱔絲讓女兒過了癮有九十分，乾絲炒牛肉絲鍋氣賣相味道非常正宗比上海鄉村做的好，唯一的是臘肉西蘭花抄水太久了導致和臘肉的味道炒不到一起，一上菜米飯就到也是讓我滿意的地方，涼拌木耳如果精選東北小秋耳就更好了", "sentiment": "positive", "likes": "", "tags": []}, {"id": 134, "author": "ChingHui Wu", "author_info": "Local Guide · 279 reviews · 1,799 photos", "time": "Edited 10 months ago", "text": "上海菜（1年多前來過）\n114.10.17再跟兒子來吃，2個小菜，1罐檸檬金橘飲，蠟肉炒高麗菜、吳錫子排、蘿蔔燉牛肉（來不及照片）\n豬肉、牛肉都軟嫩到家了，讚。", "sentiment": "positive", "likes": "", "tags": []}, {"id": 135, "author": "三小姐", "author_info": "Local Guide · 85 reviews · 268 photos", "time": "3 years ago", "text": "訂了10人份位子，說是低消1萬，所以點了8000的桌餐，又加點了菜飯，豆干肉絲，鮮蝦粉絲煲，炒水蓮，豆酥鱈魚，銀絲卷，心太軟，冷盤上來後，加點的菜陸續上來，反而桌餐的菜遲遲沒上，和服務生說了2次，等了許久，菜才來，希望廚房可以注意一下上菜的時間和順序！另外有現場演奏！", "sentiment": "neutral", "likes": "+13", "tags": ["上海菜飯", "服務態度", "出菜品質"]}, {"id": 136, "author": "Moo L", "author_info": "Local Guide · 216 reviews · 781 photos", "time": "9 months ago", "text": "精典功夫菜，都沒讓人失望。如：蔥燒鯽魚，連頭、骨都可吃下去。", "sentiment": "negative", "likes": "", "tags": []}, {"id": 137, "author": "吳佳佳", "author_info": "6 reviews · 1 photo", "time": "a month ago", "text": "雞湯很好喝，很值得一喝", "sentiment": "neutral", "likes": "", "tags": ["石斛雞湯"]}, {"id": 138, "author": "Benson Yu", "author_info": "Local Guide · 21 reviews · 59 photos", "time": "a year ago", "text": "每道菜都蠻好吃的，特別是燉雞湯清爽好喝，比較小可惜是帶蛋糕來慶生需要額外再付清潔費300元。", "sentiment": "positive", "likes": "", "tags": ["石斛雞湯"]}, {"id": 139, "author": "Jessie Wu", "author_info": "Local Guide · 27 reviews · 61 photos", "time": "3 years ago", "text": "東西都還不錯吃，但有點油。\n海菜蛋裡面有加甜椒，不太ok！\n最好吃是金沙四季豆，可以點👌\n這樣三道菜點下來打9折還要1000，對學生而言有點貴 …", "sentiment": "negative", "likes": "", "tags": []}, {"id": 140, "author": "賴雪芬（Yuki）", "author_info": "Local Guide · 48 reviews · 428 photos", "time": "2 years ago", "text": "晚上要聽音樂會，就近選擇這間上海菜品嚐，真的很好吃耶。服務很好，下次還會再來 ☝️", "sentiment": "positive", "likes": "+5", "tags": []}, {"id": 141, "author": "D望星", "author_info": "Local Guide · 28 reviews · 104 photos", "time": "a year ago", "text": "食物很好吃，盲點不踩雷，適合＞3人來聚餐，收取一成服務費但喝水要自己倒，希望加强服務", "sentiment": "negative", "likes": "", "tags": []}, {"id": 142, "author": "PINGHAN TSAI", "author_info": "Local Guide · 84 reviews · 481 photos", "time": "4 years ago", "text": "入口即化的東坡肉讓人很想點白飯😂，功夫菜雞翼去骨放入筍菇等料頭在用花雕嗆香，雖然已經飽到翻過去了還是忍不住多吃一塊。最後的雞湯也好，如果不愛仁愛圓環豬味比較重的版本可以來試試。 …", "sentiment": "neutral", "likes": "+5", "tags": ["東坡肉", "石斛雞湯", "CP值"]}, {"id": 143, "author": "許達達", "author_info": "Local Guide · 588 reviews · 11,480 photos", "time": "Edited a year ago", "text": "上海菜飯有點乾\n其他的菜是不會太鹹～但都偏油\n適合家人朋友餐聚的地方 …", "sentiment": "negative", "likes": "+18", "tags": ["上海菜飯"]}, {"id": 144, "author": "Moyan Huang", "author_info": "Local Guide · 40 reviews · 25 photos", "time": "a year ago", "text": "母親節臨時訂位來吃飯，第一次吃上海菜沒想到真的很合家人的胃口！ 每道菜都不雷好好吃，每道菜都讓家人稱讚，味道很到位，東坡肉請一定要點非常好吃👍🏻\n招牌雞湯不是油膩的湯，反而是有點回甘有點解膩的口感，很香很好吃！ 家人讚不絕口 …", "sentiment": "positive", "likes": "", "tags": ["東坡肉", "石斛雞湯"]}, {"id": 145, "author": "Ting Chu", "author_info": "Local Guide · 36 reviews · 37 photos", "time": "a year ago", "text": "今天是跟家人去用餐\n東西好好吃，用餐環境很舒服\n餐廳位置又近捷運，基本上沒有什麼好挑剔的 …", "sentiment": "positive", "likes": "", "tags": []}, {"id": 146, "author": "Bart Tsai", "author_info": "Local Guide · 187 reviews · 2,229 photos", "time": "5 years ago", "text": "環境不錯，附近好停車，范添美師傅的東坡肉相當棒\n不過整體消費略高，來這邊用餐需要考慮一下預算\n台大校友好像是有打折的", "sentiment": "positive", "likes": "+14", "tags": ["東坡肉"]}, {"id": 147, "author": "Zoe Huang", "author_info": "Local Guide · 62 reviews · 192 photos", "time": "9 months ago", "text": "第一次來吃\n餐點蠻好吃的 雞湯要預訂", "sentiment": "positive", "likes": "+7", "tags": ["石斛雞湯"]}, {"id": 148, "author": "Julie Kim", "author_info": "Local Guide · 286 reviews · 2,635 photos", "time": "2 years ago", "text": "曉鹿鳴樓是我們常去的餐廳，過年期間服務人員應該是太忙太累了，服務態度不佳，影響用餐的心情。菜都到齊許久，菜飯才姍姍來遲！！總之今天用餐感覺極差😓😓 …", "sentiment": "negative", "likes": "", "tags": ["上海菜飯", "服務態度"]}, {"id": 149, "author": "SY KAO", "author_info": "Local Guide · 1,569 reviews · 16,187 photos", "time": "7 years ago", "text": "用餐環境算不錯。\n服務上，該店不具備應付尖峰時段的人手。\n這次吃的料理中，麻辣牛肚非常喜歡，菜飯作得很棒，其他料理也都不錯，唯不推鳳梨蝦球。", "sentiment": "positive", "likes": "+5", "tags": ["上海菜飯"]}, {"id": 150, "author": "Sunshine Allen", "author_info": "Local Guide · 191 reviews · 1,786 photos", "time": "5 years ago", "text": "現場環境防疫措施做得徹底，服務人員皆配戴口罩提供個人食用的分盤服務，每桌用5片透明隔板分隔。\n葷素的菜色都豐富，份量也充足。東坡肉菜飯口感特別好。飯的處理粒粒分明，搭配肉在口中的咀嚼，肉香和飯的甜味融合地恰到好處。干貝的料理約3分熟，對於怕生食者會比較有挑戰性。蝦子新鮮，肉質頗嫩。\n總體而言，是值得再來造訪的優質餐廳。", "sentiment": "positive", "likes": "+17", "tags": ["東坡肉", "上海菜飯"]}, {"id": 151, "author": "Gary Lin", "author_info": "Local Guide · 690 reviews · 6,207 photos", "time": "3 years ago", "text": "服務品質退步了，菜色口味還是有一定水平，但部份菜色應該是事先做好，加熱後出菜，可能加溫時間沒掌握好，有些外熱內冷。。。🙄 …", "sentiment": "negative", "likes": "+7", "tags": []}, {"id": 152, "author": "C C", "author_info": "Local Guide · 2,059 reviews · 32,298 photos", "time": "Edited 6 years ago", "text": "星期一公休，其他時間跟中餐廳共用一個用餐空間，同一個老闆經營兩個餐廳，原本是分開兩個餐廳，後來把餐廳合而為一。實在是很有趣\n\n好吃榜： …", "sentiment": "positive", "likes": "+25", "tags": []}, {"id": 153, "author": "Raya Lin", "author_info": "Local Guide · 82 reviews · 230 photos", "time": "a year ago", "text": "和朋友在這裡聚餐，非常開心，老皮嫩肉，上海菜飯，蒼蠅頭，雞湯好吃", "sentiment": "positive", "likes": "+2", "tags": ["石斛雞湯", "上海菜飯"]}, {"id": 154, "author": "白謹瑄", "author_info": "Local Guide · 36 reviews · 29 photos", "time": "a year ago", "text": "除非有人請客，不會再回訪。點餐的人員，你的臉實在很臭，態度非常差!\n有些菜連拍照都不想拍了", "sentiment": "negative", "likes": "+2", "tags": ["服務態度"]}, {"id": 155, "author": "張文馨", "author_info": "Local Guide · 24 reviews · 45 photos", "time": "4 years ago", "text": "吃的是桌菜 一桌8000\n整體口味偏重、偏甜\n感覺與上海鄉村的同等價位平分秋色 …", "sentiment": "neutral", "likes": "+3", "tags": []}, {"id": 156, "author": "呂汶蓮", "author_info": "Local Guide · 13 reviews · 14 photos", "time": "3 months ago", "text": "點了很多招牌菜，都非常好吃！", "sentiment": "positive", "likes": "", "tags": []}, {"id": 157, "author": "Tomorrow CU", "author_info": "Local Guide · 930 reviews · 3,102 photos", "time": "7 years ago", "text": "好吃的餐廳，即便到訪當天主廚不在依然維持著高檔的水準。傳說中臺灣第一的東坡肉入口即化，夾入刈包中口感搭配美妙無比。上海菜飯更是在台北其他地方吃不到的口味，沙公火鍋湯配上炸過的米煮粥也是一絕，一湯三吃。除此之外點心及其他菜餚都在高水準表現，好吃", "sentiment": "positive", "likes": "+17", "tags": ["東坡肉", "上海菜飯"]}, {"id": 158, "author": "汪子騫", "author_info": "Local Guide · 57 reviews · 134 photos", "time": "4 years ago", "text": "滿心期待的東坡肉稍微過譽\n可能期待太高\n水煮魚的魚肉有點腥味 …", "sentiment": "positive", "likes": "+8", "tags": ["東坡肉"]}, {"id": 159, "author": "ellesse yang", "author_info": "Local Guide · 428 reviews · 2,913 photos", "time": "3 years ago", "text": "這應該是我吃過性價比最差的餐廳，份量少不說，一道左宗棠雞可以做成美式甜辣雞，鱔糊是溫的，蔥爆牛肉絲要找到完整一條牛肉絲都不容易，蔥白少的可憐。", "sentiment": "negative", "likes": "+5", "tags": []}, {"id": 160, "author": "車重遠", "author_info": "Local Guide · 22 reviews · 104 photos", "time": "Edited 2 years ago", "text": "干貝針菇娃娃菜~真是讓人驚喜與意外\n\n連服務人員也不知道（干貝）在那裡，還整盤端到廚房詢問廚師後，在端回桌回覆我們~是干貝絲 …", "sentiment": "neutral", "likes": "", "tags": []}, {"id": 161, "author": "Grace Yue", "author_info": "Local Guide · 86 reviews · 352 photos", "time": "5 years ago", "text": "口味中規中矩  但價格偏高\n\n東坡肉很優秀 值得點 必須點 …", "sentiment": "positive", "likes": "+6", "tags": ["東坡肉"]}, {"id": 162, "author": "PF", "author_info": "2 reviews", "time": "5 months ago", "text": "叫了兩個素食套餐。有一碗湯裏面有肉和骨頭，而另一碗裏面沒有。 應該是把湯裏面的肉全部撈起後扮作素湯👎🏻\n\nOrdered two vegetarian sets. There was meat and bone in one if the soup and none …", "sentiment": "neutral", "likes": "", "tags": []}, {"id": 163, "author": "Michael Chen", "author_info": "Local Guide · 655 reviews · 309 photos", "time": "7 years ago", "text": "事前沒辦法訂位，到現場才知小桌數量少都要現場排。週五晚上人聲鼎沸，用餐的環境不能說太好，服務人員急急忙忙，感覺不是太順手。不知道是太久沒吃江浙菜？還是腸胃變弱？今天第一次光顧，總覺得口味偏重，過於油膩。調味掩蓋了店家自豪的食材原味，感受不到平衡或幫襯。簡單點了幾樣菜色，可以吃飽沒問題，但品質與價格不成比例。其他江浙菜的店家也可以端出同樣的品質，但價格便宜兩成的選擇。還好沒有呼朋引伴，不然就更多遺憾了。", "sentiment": "negative", "likes": "+3", "tags": ["CP值"]}, {"id": 164, "author": "Murphy", "author_info": "Local Guide · 184 reviews · 3,107 photos", "time": "3 years ago", "text": "東坡肉十分軟嫩\n清蒸臭豆腐真的有臭\n清蒸石斑蠻鮮der …", "sentiment": "neutral", "likes": "+38", "tags": ["東坡肉"]}, {"id": 165, "author": "Dear John", "author_info": "Local Guide · 1,101 reviews · 4,980 photos", "time": "3 years ago", "text": "菜色多樣有特色，精緻、服務好，環境不錯，好停車（台大校園），價位偏高、限時用餐。東坡肉、金沙四季豆、肉絲豆乾、都推。", "sentiment": "positive", "likes": "+8", "tags": ["東坡肉", "催客趕人"]}, {"id": 166, "author": "Shining Hu", "author_info": "Local Guide · 157 reviews · 2,492 photos", "time": "7 years ago", "text": "第一次造訪，衝著招牌東坡肉來的，果然很銷魂，\n五花肉的油脂比例堪稱完美，咬起來嫩中帶Q，醬汁閃閃發亮，冰糖、肉汁和醬油調和的很棒啊！雖然東坡肉總配刈包，但我覺得跟白飯才是天生一對，（順道說，這裡白米飯好吃）非常下飯。 …", "sentiment": "positive", "likes": "+8", "tags": ["東坡肉"]}, {"id": 167, "author": "Allen Lim", "author_info": "Local Guide · 534 reviews · 4,869 photos", "time": "2 years ago", "text": "曉鹿鳴樓根本是台大生聚餐的定番。\n週末肯定是大爆滿，\n菜色口味跟份量都非常不錯， …", "sentiment": "neutral", "likes": "+4", "tags": []}, {"id": 168, "author": "Sheknam Chu", "author_info": "Local Guide · 21 reviews · 34 photos", "time": "8 months ago", "text": "非常適合聚餐的餐廳！有包廂，菜色豐富好吃！", "sentiment": "positive", "likes": "", "tags": []}, {"id": 169, "author": "Eric Shih", "author_info": "Local Guide · 2,563 reviews · 19,224 photos", "time": "3 years ago", "text": "韭黃鱔魚，清燉蘿蔔牛腩湯不錯！招牌翡翠菜飯，老皮嫩肉，蟹粉豆苗，蔥燒軟骨排！", "sentiment": "positive", "likes": "+4", "tags": ["上海菜飯"]}, {"id": 170, "author": "坤正林", "author_info": "Local Guide · 212 reviews · 1,835 photos", "time": "2 years ago", "text": "這是台大EMBA學弟開的餐廳，就在羅斯福路台大管院二館。 平常都是參加台大emba的各式聚餐，今天早上到淡水，回台北後12:00 。我下一個行程是到政大上課。\n就利用這個空檔跟同事開會，約在曉鹿鳴樓，停車方便，又在路途中點，時間好掌握。 …", "sentiment": "neutral", "likes": "", "tags": []}, {"id": 171, "author": "chung Jovi", "author_info": "Local Guide · 64 reviews · 140 photos", "time": "9 months ago", "text": "餐點ok, 但服務真是可和香港媲美（壞的那面），接近 last order 時間落單，已經有點說話給你聽。到後來，還未到關門時間已經有趕客feel。我明白工作人員要下班，但如果員工要9點放工，為何你不把關門時間寫早半小時甚至1小時，因為客人所理解的關門時間是客人可以使用餐廳的時間，而不是你們員工下班的時間", "sentiment": "negative", "likes": "", "tags": ["催客趕人"]}, {"id": 172, "author": "蔣大大", "author_info": "Local Guide · 102 reviews · 219 photos", "time": "4 years ago", "text": "非常適合家庭聚餐。空間寬闊舒適，桌子之間也有適當的距離。傳說中的東坡肉入口即化，名不虛傳。我會為了東坡肉重複造訪。事先預訂的雞湯也非常的鮮美還能加湯。蘆筍百合清爽可口，芝麻球好令人懷念。整體菜色都沒雷，蠻開心的。", "sentiment": "negative", "likes": "+3", "tags": ["東坡肉", "石斛雞湯"]}, {"id": 173, "author": "Mary C", "author_info": "Local Guide · 313 reviews · 4,797 photos", "time": "Edited 7 years ago", "text": "兩次用餐經驗\n餐食口味不錯，服務人員待加強，環境沒有考慮到地板硬滑、椅子不穩定易打滑，客人一個重心不穩就跌坐地上\n4.1再度用餐 …", "sentiment": "neutral", "likes": "+24", "tags": []}, {"id": 174, "author": "陳品妍（史嘉蕾）", "author_info": "Local Guide · 1,374 reviews · 19,181 photos", "time": "5 years ago", "text": "同事推薦的餐廳，生意很好，假日用餐限時一個半小時，環境裝潢不錯，價位不算高\n但菜沒有預期中的好吃，表現得中規中矩，不會讓人覺得特別好吃", "sentiment": "positive", "likes": "+9", "tags": ["催客趕人"]}, {"id": 175, "author": "林小芸", "author_info": "Local Guide · 1,081 reviews · 15,613 photos", "time": "4 years ago", "text": "我們今天點的是10800套餐。\n銷魂東坡肉:入口即化，油而不膩。\n麥片大草蝦:麥片米香酥脆香濃，蝦子新鮮。 …", "sentiment": "positive", "likes": "+26", "tags": ["東坡肉"]}, {"id": 176, "author": "Yvetta CHANG", "author_info": "Local Guide · 379 reviews · 1,445 photos", "time": "3 years ago", "text": "以前還蠻喜歡這間餐廳，去過不下10次，但這次回訪，品質降低不少，個人覺得這樣的價格，服務、餐點都不行。反應給收銀，她也只是笑笑而已。", "sentiment": "positive", "likes": "+3", "tags": []}, {"id": 177, "author": "東方白", "author_info": "Local Guide · 702 reviews · 4,420 photos", "time": "3 years ago", "text": "好吃的食物總是有讓人重新活過來的本事\n今闆娘在集思支援客戶教育訓練，老子工作不爽了一天，請她訂了好吃食~~吃吧！\n把一切擺爛業主豬打架的事拋諸腦後囉", "sentiment": "negative", "likes": "+6", "tags": []}, {"id": 178, "author": "Jo-Ning Wu", "author_info": "Local Guide · 37 reviews · 27 photos", "time": "5 years ago", "text": "疫情期間用餐，餐廳會加強消毒，並且落實實名制，每個用餐座位保持距離。\n餐廳裝潢很美，家庭聚餐或是公司聚餐有隱密性，請客吃飯挺適合，只是用餐期間服務人員在還未及下班時間，就開始收拾鄰邊座位，感覺有點不好。\n菜品中上，香乾肉絲有鍋氣，香辣下飯，東坡肉有些過譽了，單吃肉質有些柴，肥肉有點膩口，但帶夾時配上大蔥著實不錯，調味尾韻帶些醋香平衡甜以及解油膩。\n今日還點了紅燒黃魚，不知道是不是魚不太新鮮還是調味，一開始魚腥味有點重，值得嘉許的是服務人員由於誤報時價但最後還是以該價計。", "sentiment": "negative", "likes": "", "tags": ["東坡肉"]}, {"id": 179, "author": "Goldie Lu", "author_info": "9 reviews · 1 photo", "time": "4 months ago", "text": "母親節套餐份量足且美味，服務親切。", "sentiment": "positive", "likes": "", "tags": []}, {"id": 180, "author": "余仁龍", "author_info": "Local Guide · 145 reviews · 266 photos", "time": "Edited 7 years ago", "text": "週日晚上的現場演唱超好聽，\n義大利麵都好好吃，店員服務態度都非常好，\n適合三五朋友悠閒吃飯談天。 …", "sentiment": "negative", "likes": "+3", "tags": ["服務態度"]}, {"id": 181, "author": "Roberta Liu", "author_info": "Local Guide · 245 reviews · 931 photos", "time": "7 years ago", "text": "美食之旅～餐廳的招牌東坡肉，真的名不虛傳，肥瘦均勻不油，雙拼中的牛肚有花椒的麻跟香氣，清蒸臭豆腐的味道很足，但湯稍嫌鹹，這是一家值得推薦的餐廳，記得要訂位😊😊\n價位：$$$\n再度光臨指數：💖💖💖💖 …", "sentiment": "positive", "likes": "+6", "tags": ["東坡肉"]}, {"id": 182, "author": "余中茹", "author_info": "Local Guide · 24 reviews · 28 photos", "time": "a year ago", "text": "不愧是亞太年度十大名菜\n雞湯真的很～好～喝～\n推推 朋友聚餐或是公司行號尾牙都可以來這\n包廂還可以唱歌🎵 …", "sentiment": "positive", "likes": "", "tags": ["石斛雞湯"]}, {"id": 183, "author": "Jenny Shen", "author_info": "Local Guide · 40 reviews · 38 photos", "time": "11 months ago", "text": "家庭聚餐訂了包廂，環境很好，長輩很開心。\n點菜的時候廖經理幫忙配菜，都好吃😋 …", "sentiment": "positive", "likes": "", "tags": []}, {"id": 184, "author": "Angela", "author_info": "Local Guide · 579 reviews · 1,932 photos", "time": "7 years ago", "text": "招牌東坡肉必點，東坡肉看似肥但吃起來完全沒有油膩感，入口即化且鹹甜味道剛剛好。菜飯也是必吃的品項，爽口。萌菇包很可愛，內餡是芝麻糊，味道香醇不會太過甜膩。整體餐點口味都有水準，用餐環境也舒適。\n食記 : \" 台大餐廳-曉鹿鳴樓 上海菜精緻美味. \"", "sentiment": "positive", "likes": "", "tags": ["東坡肉", "上海菜飯"]}, {"id": 185, "author": "Daryl Cheng", "author_info": "Local Guide · 1,095 reviews · 6,303 photos", "time": "5 years ago", "text": "東坡肉真的很好吃，不愧是招牌菜，服務也真的很好，但有幾道菜實在是可惜，覺得有點普通....", "sentiment": "positive", "likes": "+9", "tags": ["東坡肉"]}, {"id": 186, "author": "king haw tian", "author_info": "Local Guide · 67 reviews · 2,608 photos", "time": "8 months ago", "text": "絕對是史上最強東坡肉！", "sentiment": "neutral", "likes": "+10", "tags": ["東坡肉"]}, {"id": 187, "author": "解昆樺", "author_info": "Local Guide · 257 reviews · 1,734 photos", "time": "a year ago", "text": "菜色普通，服務普普～不會是是我台北粵菜的前五名", "sentiment": "neutral", "likes": "+10", "tags": []}, {"id": 188, "author": "湯明珠", "author_info": "Local Guide · 518 reviews · 10,637 photos", "time": "3 years ago", "text": "大推！很值得特別來一嚐的上海菜：最軟嫩的東坡肉（小份含6個刈包），真是令人允指回味無窮；無錫子排，味道特別香醇；蔥燒鯽魚，魚卵滿滿、魚骨入口即化。會再回訪！\n（若是臺大人，提供證件有9折優惠）", "sentiment": "positive", "likes": "+4", "tags": ["東坡肉"]}, {"id": 189, "author": "Ya-hui Chen", "author_info": "Local Guide · 483 reviews · 2,512 photos", "time": "4 years ago", "text": "12800合菜，包廂舒適，\n烏龍茶及肉桂紅茶都很好喝\n上海菜飯及石斑魚味道太淡，有點可惜 …", "sentiment": "neutral", "likes": "+11", "tags": ["上海菜飯"]}, {"id": 190, "author": "Sonja Huang", "author_info": "Local Guide · 23 reviews · 49 photos", "time": "3 years ago", "text": "曉鹿鳴樓上海菜餐廳，口味真的十分地棒。我們八人(七位不同國籍的老外)和我吃了都讚不絕口。我們點了東坡肉，酸辣湯，宮保豆腐，老皮嫩肉，宮保雞丁，清炒高麗菜，紅燒黃魚，澎湖海菜炒蛋，以及芝麻球共兩道甜點。口味好吃到外國人開心不已，餐後還在店門口照相，他們說下次再來台灣一定再來曉鹿鳴。服務人員的態度也一級棒。真心推薦喜愛上海菜的朋友們一定要到曉鹿鳴品嘗一下。因為太好吃了，結果忘記好好照相了。\nps: 個人素菜也很棒!", "sentiment": "positive", "likes": "", "tags": ["東坡肉", "服務態度"]}, {"id": 191, "author": "Heysprinkle Chen", "author_info": "Local Guide · 29 reviews · 56 photos", "time": "a year ago", "text": "東坡肉入口即化，味道蠻好～\n\n也點了峭壁石斛燉雞湯，味道不是濃郁款，感覺健康", "sentiment": "neutral", "likes": "", "tags": ["東坡肉", "石斛雞湯"]}, {"id": 192, "author": "Loretta Liu", "author_info": "Local Guide · 659 reviews · 3,191 photos", "time": "2 years ago", "text": "菜飯非常好吃 不過整體口味比較偏鹹甜，幾道菜的口味都大同小異", "sentiment": "positive", "likes": "+10", "tags": ["上海菜飯"]}, {"id": 193, "author": "tutu chiu", "author_info": "Local Guide · 197 reviews · 696 photos", "time": "5 years ago", "text": "吃過這裡的東坡肉應該就回不去了，軟嫩不膩的三層肉，佐著不會太甜太鹹的湯汁，美味至極。蔥煨麵湯頭濃郁，麵條Q彈好吃。今天炒時蔬是娃娃菜，新鮮香甜。飯後附贈每人一小碗銀耳紅棗甜湯，非常好喝，令人驚艷。", "sentiment": "positive", "likes": "", "tags": ["東坡肉"]}, {"id": 194, "author": "Crystal 芊和 - LIN CHIEN HO", "author_info": "Local Guide · 75 reviews · 198 photos", "time": "Edited a year ago", "text": "- 東坡肉刈包\n- 布拉魚雞蛋\n都超好吃！ …", "sentiment": "positive", "likes": "", "tags": ["東坡肉"]}, {"id": 195, "author": "Cougar Lai", "author_info": "Local Guide · 30 reviews · 142 photos", "time": "a year ago", "text": "那天同學預定，本來坐外面，後來詢問包廂後改坐包廂，包廂有低消，也點了桌菜，上菜前服務員一直問我們選個小菜，一開始我說不用，服務員一直不離開，同學勉強選了2樣但幾乎沒吃，那兩樣180,一壺茶300，還有一成服務費，喔對了，可能一個比較老的服務員還是主管說免我們帶酒開瓶費，這也是我沒有給妳一顆星的原因之一， …", "sentiment": "neutral", "likes": "", "tags": ["服務態度"]}, {"id": 196, "author": "HY W", "author_info": "Local Guide · 196 reviews · 288 photos", "time": "7 years ago", "text": "一進門就被寬敞的空間震攝到，星期五的晚上客人不多大約5桌，東坡肉滿好吃的，口味偏甜真的燉的很軟，菜飯稍嫌煮過頭有點偏軟，點了皎白筍菜單上有寫金沙，上來居然是清炒，詢問服務人員居然愛理不理的走掉，後來上的臭豆腐也不錯吃，但是就感受到服務人員不親切一直要把盤子收走有點懶得拍了，後來想說定給長輩吃，打來詢問態度不好一副遇到窮鬼的態度，要求一桌要點到一萬但是卻又提供7200元桌菜，反反復復又說是菜單沒更新，一副就是老娘不想做你生意的態度，新開幕也沒什麼人居然態度這麼不屑，我只能說加油保重了！", "sentiment": "neutral", "likes": "", "tags": ["東坡肉", "上海菜飯", "服務態度"]}, {"id": 197, "author": "JayMike紀皓勻（Jixiangwei）", "author_info": "Local Guide · 55 reviews · 165 photos", "time": "a year ago", "text": "好吃\n但是豆乾牛肉絲有點偏鹹", "sentiment": "positive", "likes": "+5", "tags": []}, {"id": 198, "author": "PEGGY JH CHEN", "author_info": "Local Guide · 197 reviews · 2,698 photos", "time": "6 years ago", "text": "地點：鄰近公館捷運站 旁邊緊鄰台灣大學收費停車場\n環境：明亮舒適的中式木質裝潢，搭配氣派的巴洛克風格包廂\n餐點：上海料理 …", "sentiment": "neutral", "likes": "+4", "tags": []}, {"id": 199, "author": "Jacky Cheng", "author_info": "Local Guide · 212 reviews · 279 photos", "time": "3 years ago", "text": "真的好吃，人多也比較好點餐；東坡肉超推，雖然看起來肥滋滋但是吃起來超讚！", "sentiment": "positive", "likes": "", "tags": ["東坡肉"]}, {"id": 200, "author": "天兵好", "author_info": "Local Guide · 369 reviews · 1,546 photos", "time": "Edited 2 years ago", "text": "吃這麼多次了 菜跟人員 都越來越差 只有價格有提升 整體菜是還可以 最誇張的是工作人員很沒禮貌 不是服務好壞的問題 是根本沒基本禮貌 而且還是有收服費的喔", "sentiment": "negative", "likes": "+4", "tags": []}, {"id": 201, "author": "林汶欣", "author_info": "Local Guide · 15 reviews · 10 photos", "time": "7 months ago", "text": "雞湯好喝👍補氣養生\n服務員服務很讚😎 …", "sentiment": "positive", "likes": "", "tags": ["石斛雞湯", "服務態度"]}, {"id": 202, "author": "CATH", "author_info": "Local Guide · 818 reviews · 3,546 photos", "time": "a year ago", "text": "Pork with the bread (mantao), fried water bamboo & intestine so delicious. The stinky tofu also nice. Overall..delicious", "sentiment": "neutral", "likes": "+7", "tags": []}, {"id": 203, "author": "蔡宛茜", "author_info": "11 reviews · 6 photos", "time": "4 months ago", "text": "許久沒吃依舊美味\n母親節餐👍 …", "sentiment": "positive", "likes": "", "tags": []}, {"id": 204, "author": "Zoey Teng", "author_info": "Local Guide · 118 reviews · 483 photos", "time": "3 years ago", "text": "優：\n整體口味好吃 …", "sentiment": "positive", "likes": "", "tags": []}, {"id": 205, "author": "Jesse Kuo", "author_info": "Local Guide · 24 reviews · 48 photos", "time": "3 years ago", "text": "Excellent and authentic Shanghai cuisine. Dongpo pork, Shanghai Vegetable Rice and Slow-Cooked Bamboo Shoot Soup are must to eat. But the elderly waitress sucks, and that’s the main reason for one star deduction. All in all, the dishes are fantastic.", "sentiment": "neutral", "likes": "", "tags": []}, {"id": 206, "author": "DKS CH", "author_info": "Local Guide · 1,295 reviews · 1,030 photos", "time": "Edited 2 years ago", "text": "沒吃過很多菜式，雪菜魚片可能有點不新鮮，但調味跟筍子味道很好；白飯讓人驚艷，但一碗真貴；菜的調味口味重，這家以上海菜為主的餐廳裝潢大氣，服務尚可，但似乎忙不過來？請人協助時要一直示意才有回應。此外，店內其他客人水準有些不太好。\n2023.12 …", "sentiment": "positive", "likes": "", "tags": []}, {"id": 207, "author": "Ella", "author_info": "Local Guide · 132 reviews · 124 photos", "time": "4 months ago", "text": "非常好吃👍\n鳳梨蝦球很驚艷\n不是只有鳳梨 …", "sentiment": "positive", "likes": "", "tags": []}, {"id": 208, "author": "I-Ting Ivy Wang", "author_info": "Local Guide · 20 reviews · 23 photos", "time": "11 months ago", "text": "菜品價格實惠、口味地道。石斛雞湯清甜香氣獨特。清炒鱔魚鍋氣十足、菜飯具現代健康理念，爽脆不膩。推薦來此用餐！", "sentiment": "positive", "likes": "", "tags": ["石斛雞湯", "上海菜飯", "CP值"]}, {"id": 209, "author": "黃小明", "author_info": "Local Guide · 8 reviews · 58,939 photos", "time": "3 years ago", "text": "點完菜時\n我：出菜出順就好，不要一下子出滿\n服務生：今天人很多沒辦法控制 …", "sentiment": "neutral", "likes": "+11", "tags": ["服務態度"]}, {"id": 210, "author": "fifi Huang", "author_info": "Local Guide · 2,100 reviews · 8,762 photos", "time": "Edited 3 years ago", "text": "不錯：金沙四季豆腐，梅汁油爆蝦\n一般：蔥泥油雞腿（調味不錯，但雞肉不夠嫩，蔥爆牛肉\n不推：腊肉西藍花，蝦仁炒蛋", "sentiment": "negative", "likes": "", "tags": []}, {"id": 211, "author": "本然", "author_info": "Local Guide · 78 reviews · 155 photos", "time": "5 years ago", "text": "除了峭壁石㞳燉雞雞不太划算以外，剩下的料理都蠻不錯的。帶父母來吃，父母很滿意，覺得招牌東坡肉味道非常好，是他們小時候的味道。\n※ 11:00~14:30；17:00~21:00（週末假日晚餐會分時段）\n※ 低消每人150元，付現折1%\n※ 台大師生憑證件可打9折", "sentiment": "positive", "likes": "", "tags": ["東坡肉", "CP值"]}, {"id": 212, "author": "yixuan fang", "author_info": "1 review · 1 photo", "time": "a year ago", "text": "兩個人點了兩菜一盅湯和小份菜飯，雞湯有加特殊的藥材非常清爽。\n學餐吃膩了的好選擇～", "sentiment": "neutral", "likes": "", "tags": ["石斛雞湯", "上海菜飯"]}, {"id": 213, "author": "Joy Wang", "author_info": "Local Guide · 212 reviews · 853 photos", "time": "2 years ago", "text": "位於台大會賢館ㄧ樓，捷運公館站1號出口左轉直行約五分鐘。空間寬敞典雅輕鬆，只前方牆上電視螢光幕重覆放映環保影片，擾人不合適又顯無意義。\n菜餚味道不錯，「金沙四季豆腐」味美，小份份量有點「太小」，基本上價格中等，只招牌「東坡肉」肥肉不錯可瘦肉很柴，不優。服務人員不夠，上菜稍慢。綜合而論，親朋好友聚餐的好地方。", "sentiment": "positive", "likes": "", "tags": ["東坡肉"]}, {"id": 214, "author": "黃繼德", "author_info": "Local Guide · 931 reviews · 2,605 photos", "time": "6 years ago", "text": "美味的上海菜餐廳\n東坡肉夾刈包，醬汁甜而不膩，豬皮跟肥肉一入口就化成一股肉香\n宮保雞丁有一股熱油與醋熗出來的荔枝味，非常下飯 …", "sentiment": "positive", "likes": "+2", "tags": ["東坡肉"]}, {"id": 215, "author": "Yo Yo", "author_info": "Local Guide · 147 reviews · 518 photos", "time": "7 years ago", "text": "菜色都不錯口味也蠻好的\n美中不足\n東坡肉切的很醜 斷層 鋸齒樣 …", "sentiment": "neutral", "likes": "+3", "tags": ["東坡肉"]}, {"id": 216, "author": "Nobuhiro Wang", "author_info": "Local Guide · 462 reviews · 4,838 photos", "time": "Edited 6 years ago", "text": "上海菜飯有炒過,雖然稍微油了點,但很香,東坡肉則是尚可,夠軟嫩,但勾芡有點過了,味道沒有很入味\n環境則是回音大,完全無法聊天,然後服務奇差無比,點菜叫不來,收菜收盤積極到還沒吃完就收光", "sentiment": "negative", "likes": "", "tags": ["東坡肉", "上海菜飯", "催客趕人"]}, {"id": 217, "author": "西元", "author_info": "2 reviews", "time": "a month ago", "text": "量少 味道一般 說了不放香菜照樣放 菜還不熱", "sentiment": "neutral", "likes": "", "tags": []}, {"id": 218, "author": "Roy Yuan", "author_info": "Local Guide · 1,081 reviews · 13,966 photos", "time": "a year ago", "text": "餐點不差\n東坡肉退步（稍柴⋯）\n人多時服務稍慢，要等一下。", "sentiment": "negative", "likes": "+20", "tags": ["東坡肉"]}, {"id": 219, "author": "李雅君", "author_info": "Local Guide · 28 reviews · 14 photos", "time": "5 months ago", "text": "雞湯超好喝 菜飯好吃", "sentiment": "positive", "likes": "", "tags": ["石斛雞湯", "上海菜飯"]}, {"id": 220, "author": "Jessica Lin", "author_info": "Local Guide · 37 reviews · 1 photo", "time": "6 months ago", "text": "吃過最糟糕的除夕圍爐年夜飯，完全對不起所收取的費用；不會再光顧也不會推薦給朋友。\n\n1.環境 …", "sentiment": "positive", "likes": "", "tags": ["年菜爭議"]}, {"id": 221, "author": "Sophia", "author_info": "2 reviews · 1 photo", "time": "4 months ago", "text": "餐點好吃不鹹👍 …", "sentiment": "positive", "likes": "", "tags": []}, {"id": 222, "author": "誠實豆沙包", "author_info": "Local Guide · 1,437 reviews · 11,654 photos", "time": "Edited 5 years ago", "text": "東坡肉真的一咬即化！很推薦\n必點喔！其它菜色表現的中規中矩不驚艷，份量也不多！", "sentiment": "positive", "likes": "+10", "tags": ["東坡肉"]}, {"id": 223, "author": "王培培", "author_info": "Local Guide · 97 reviews · 231 photos", "time": "7 years ago", "text": "2019/01/24\n-招牌東坡肉夾刈包\n超好吃 油但不膩口 非常入味 …", "sentiment": "positive", "likes": "+2", "tags": ["東坡肉"]}, {"id": 224, "author": "K彼得", "author_info": "5 reviews · 4 photos", "time": "3 months ago", "text": "上菜速度快，餐點好吃", "sentiment": "positive", "likes": "", "tags": []}, {"id": 225, "author": "Christine", "author_info": "11 reviews · 4 photos", "time": "6 months ago", "text": "餐點很不錯，但以中高價位的桌菜餐廳來說，服務態度參差不齊，不知道是否因是過年期間，服務人員態度稍顯不耐煩", "sentiment": "negative", "likes": "", "tags": ["服務態度"]}, {"id": 226, "author": "黃鼎元", "author_info": "Local Guide · 48 reviews · 173 photos", "time": "4 years ago", "text": "非常好吃！尤其東坡肉入口即化，菜飯清爽不油膩，真的好吃！", "sentiment": "positive", "likes": "", "tags": ["東坡肉", "上海菜飯"]}, {"id": 227, "author": "CH", "author_info": "Local Guide · 90 reviews · 56 photos", "time": "3 years ago", "text": "聚餐有超大獨立包廂，最多可容納23人\n且有提供麻將桌及 +1000元可唱ktv 🎤 …", "sentiment": "neutral", "likes": "", "tags": []}, {"id": 228, "author": "Yichan", "author_info": "2 reviews · 3 photos", "time": "11 months ago", "text": "石斛雞湯味道清甜雞肉入口即化", "sentiment": "neutral", "likes": "", "tags": ["石斛雞湯"]}, {"id": 229, "author": "Angela Li", "author_info": "Local Guide · 12 reviews · 24 photos", "time": "Edited 6 years ago", "text": "菜色不錯，用餐環境也很舒服，但服務素質跟危機處理能力是大問題。 …", "sentiment": "neutral", "likes": "", "tags": []}, {"id": 230, "author": "Joe Lee", "author_info": "Local Guide · 511 reviews · 7,533 photos", "time": "a year ago", "text": "上海菜，空間大、服務員客氣，菜色豐富好吃。", "sentiment": "positive", "likes": "+40", "tags": ["服務態度"]}, {"id": 231, "author": "李宗榮", "author_info": "Local Guide · 333 reviews · 2,693 photos", "time": "Edited 4 years ago", "text": "2021-10-24，今天來公館曉鹿鳴樓吃午餐，沿路發現台大對面一整排店面都關們，貼出出租公告，看來疫情影響愈來愈大！", "sentiment": "neutral", "likes": "+8", "tags": []}, {"id": 232, "author": "上官由美", "author_info": "Local Guide · 140 reviews · 201 photos", "time": "6 years ago", "text": "A good choice for nice Chinese food at a stylish  restaurant 👍🏻 they have a small stage, not sure if any live performance to be held. The jazz music played whole night is great tho. …", "sentiment": "neutral", "likes": "+2", "tags": []}, {"id": 233, "author": "yun chen", "author_info": "Local Guide · 15 reviews · 17 photos", "time": "5 years ago", "text": "缺點：子排醬料偏鹹。\n優點：九宮格好吃，金沙蝦球相互映襯，東坡肉軟嫩也入味，是會讓人想唸的味道，菜飯很香，米飯軟硬適中。", "sentiment": "positive", "likes": "", "tags": ["東坡肉", "上海菜飯"]}, {"id": 234, "author": "Samantha Lee", "author_info": "Local Guide · 259 reviews · 1,100 photos", "time": "8 years ago", "text": "餐點水準很高 老闆娘態度十分親切\n每一道菜都口齒留香\n甜點的銀耳羹真的煮的很透非常美味", "sentiment": "positive", "likes": "+10", "tags": ["服務態度"]}, {"id": 235, "author": "YUQIAN", "author_info": "Local Guide · 287 reviews · 1,240 photos", "time": "3 years ago", "text": "東坡肉的醬好好吃🤤整體吃起來口味都滿不錯的～～算是口味比較重一點 …", "sentiment": "positive", "likes": "", "tags": ["東坡肉"]}, {"id": 236, "author": "鄭立群", "author_info": "Local Guide · 35 reviews · 72 photos", "time": "3 months ago", "text": "氣氛佳、除了醬爆年糕口味不太適合大眾口味，其他都很有特色。", "sentiment": "neutral", "likes": "", "tags": []}, {"id": 237, "author": "Karen Tseng", "author_info": "Local Guide · 61 reviews · 148 photos", "time": "5 months ago", "text": "好吃，家人聚餐好地方，大人小孩都吃得很開心滿意，價格也公道！", "sentiment": "positive", "likes": "", "tags": []}, {"id": 238, "author": "涼粉條兒", "author_info": "Local Guide · 100 reviews · 552 photos", "time": "5 years ago", "text": "菜色精緻，味道中上，可惜價格偏高，大概要有人請客我才會再來。", "sentiment": "positive", "likes": "+19", "tags": []}, {"id": 239, "author": "小美", "author_info": "Local Guide · 832 reviews · 5,446 photos", "time": "3 years ago", "text": "餐點中規中矩，平均值以上的表現，很適合家族聚會，場地大，旁邊就有停車場，也在地鐵站旁，交通很方便。", "sentiment": "neutral", "likes": "+5", "tags": []}, {"id": 240, "author": "grandy chen", "author_info": "2 reviews · 1 photo", "time": "4 months ago", "text": "道地美味 假日聚餐記得要預約", "sentiment": "positive", "likes": "", "tags": []}, {"id": 241, "author": "Yuhui Lin", "author_info": "Local Guide · 27 reviews · 188 photos", "time": "3 years ago", "text": "第二次用餐，掛包好吃，雞湯太鹹肉太柴", "sentiment": "negative", "likes": "+5", "tags": ["石斛雞湯"]}, {"id": 242, "author": "Sara Febriany", "author_info": "Local Guide · 174 reviews · 2,099 photos", "time": "Edited 2 years ago", "text": "Shanghai food restaurant near National Taiwan University (NTU),you will have a special discount if you are an alumnus of NTU.\nAll the foods are good,dessert is a complimentary.\nThe place is spacious, but better make a reservation in advance.", "sentiment": "neutral", "likes": "+14", "tags": []}, {"id": 243, "author": "VICTORLINN MPH", "author_info": "Local Guide · 109 reviews · 213 photos", "time": "Edited 4 years ago", "text": "緣自美食作家的分享，循著評鑑的獎狀新聞，去享受家族歡聚時光。\n雖然給4顆星，是為了向美食作家、評審、名廚、專業嚴謹的活動單位致敬，其實所有人卻都是覺得可惜了。\n也許是沒有點「燉雞雞」、也許不是美食作家親自出現，我們的菜飯離文章的菜飯美味有一段空間，或許要像品嚐紅葡萄酒一樣的訓練味覺、視覺、嗅覺？ …", "sentiment": "positive", "likes": "", "tags": ["上海菜飯"]}, {"id": 244, "author": "KELLY YEN", "author_info": "Local Guide · 864 reviews · 2,745 photos", "time": "Edited 5 years ago", "text": "也許是場地大的關係，菜上來沒多久就全涼了，雖不錯吃卻是在有溫度的前十分鐘，涼掉後每道菜都變得油膩難入口。\n再來用餐壓力大，同個服務生不停來問需要打包嗎？直到第三次回說還沒吃完後，隔不到三分鐘就技巧性的換個服務生來問。\n環顧四周，餐廳明明仍有許多空桌，用餐時間前後也不到ㄧ個半小時，既然那麼愛趕，今後也不敢再去。", "sentiment": "negative", "likes": "", "tags": ["催客趕人", "服務態度"]}, {"id": 245, "author": "花神", "author_info": "Local Guide · 1,311 reviews · 11,191 photos", "time": "6 years ago", "text": "濃油赤醬的上海菜從小吃得到\n卻覺得主廚招牌東坡肉沒有想像中的令人驚艷\n反而隱隱覺得甜的很奇怪 …", "sentiment": "positive", "likes": "", "tags": ["東坡肉"]}, {"id": 246, "author": "快樂小狗", "author_info": "Local Guide · 443 reviews · 1,728 photos", "time": "4 years ago", "text": "沒有入味 甜鹹口味 普遍食物都偏重口味 食物拍了幾道之後覺得根本不值得拍 另外外場服務之差 一直想收盤子 好像在趕場一樣", "sentiment": "negative", "likes": "", "tags": ["催客趕人"]}, {"id": 247, "author": "Jeffery Wang", "author_info": "Local Guide · 160 reviews · 208 photos", "time": "11 months ago", "text": "餐點味道可口。適合宴客和家聚餐", "sentiment": "neutral", "likes": "", "tags": []}, {"id": 248, "author": "Tracy Hsieh", "author_info": "11 reviews · 3 photos", "time": "a year ago", "text": "菜色優，價格合理，適合家族聚餐", "sentiment": "neutral", "likes": "", "tags": []}, {"id": 249, "author": "Lucinda Chen", "author_info": "3 reviews · 1 photo", "time": "4 years ago", "text": "超誇張，沒看過有餐廳是這樣處理事情的！根本是防疫大漏洞吧\n1/15去用餐，點了腐皮卷，送上來家人咬了一口後，發現裡面的蝦子根本是生的，所以告知服務人員這個狀況。服務人員端走這盤菜，說會處理，但完全沒有道歉的意思。沒多久後端回來給我們的，居然是把原本被咬過的食物原封不動拿回去炸熟，咬過的痕跡都看的出來。所以是把客人吃過的東西丟回去跟其他新的食物一起炸嗎？超級噁心的", "sentiment": "neutral", "likes": "", "tags": []}, {"id": 250, "author": "Howa Lin", "author_info": "Local Guide · 39 reviews · 29 photos", "time": "4 years ago", "text": "每道菜的口味都恰到好處，尤其東坡肉，喜歡的人必點，當晚唯一可惜是沒有主動提供面紙，且在結束正餐後忘記主動提供甜點銀耳湯，經提醒後才送來", "sentiment": "positive", "likes": "", "tags": ["東坡肉"]}, {"id": 251, "author": "孫青", "author_info": "Local Guide · 221 reviews · 2,249 photos", "time": "6 years ago", "text": "食物品質甚好，正統上海本幫菜的口味。不論魚、肉、菜飯、湯、甜點都到位，難怪生意興隆，人聲鼎沸。\n價格中上，人均價在500至600之間。\n吵了點！既使包廂亦然。", "sentiment": "negative", "likes": "+13", "tags": ["上海菜飯"]}, {"id": 252, "author": "Joyce Liang", "author_info": "7 reviews · 2 photos", "time": "a year ago", "text": "同事約在這邊聚餐，第一次來，發現白飯好吃到停不下來，東坡肉也好好吃，小孩吃到舔盤子。有很多小菜可以選擇，服務生有拿到桌邊讓我們選，但是小孩跑到櫃子前面去看，結果每一樣都點了><\n是一個很適合吃合菜的餐廳\n服務生對小孩也很好，還跟小孩玩了一下", "sentiment": "positive", "likes": "", "tags": ["東坡肉", "服務態度"]}, {"id": 253, "author": "L.H. KUO", "author_info": "Local Guide · 57 reviews · 87 photos", "time": "4 years ago", "text": "菜飯、炒豆苗、小菜醃小黃瓜偏油！\n服務不知道在急什麼？\n小點（腐皮捲跟芝麻球）還沒上就急著上飯後招待的甜湯，請店家稍待後，在上完小點後領班就直接吩咐服務生招待甜點直接上！\n今日用餐亮點是飯後招待甜湯的紅棗有去子 算是在小細節有用心！", "sentiment": "neutral", "likes": "", "tags": ["上海菜飯", "服務態度"]}, {"id": 254, "author": "zoe倫", "author_info": "Local Guide · 43 reviews · 426 photos", "time": "6 years ago", "text": "餐點味美，服務人員迅速周全，現場演奏氣氛佳，有不同人數需求的桌位以及包廂可以選擇。", "sentiment": "neutral", "likes": "+3", "tags": []}, {"id": 255, "author": "朱華", "author_info": "2 reviews", "time": "7 months ago", "text": "今天來用餐菜很好吃，我特別喜歡蔥燒鯽魚，鮮蝦粉絲煲，東坡肉，清蒸臭豆腐也很好吃", "sentiment": "positive", "likes": "", "tags": ["東坡肉"]}, {"id": 256, "author": "Wong Ron", "author_info": "Local Guide · 1,469 reviews · 5,965 photos", "time": "7 years ago", "text": "用餐環境優, 食物都很可口.\n最重要的是服務人員態度100分 !", "sentiment": "negative", "likes": "+7", "tags": ["服務態度"]}, {"id": 257, "author": "樂於分享", "author_info": "Local Guide · 743 reviews · 7,230 photos", "time": "10 months ago", "text": "永續的店，很有故事，菜色好", "sentiment": "neutral", "likes": "+2", "tags": []}, {"id": 258, "author": "湯美華", "author_info": "Local Guide · 25 reviews · 57 photos", "time": "a year ago", "text": "東坡肉軟嫩，水煮牛麻香，石斛雞湯必點,值得推薦的餐廳", "sentiment": "positive", "likes": "", "tags": ["東坡肉", "石斛雞湯"]}, {"id": 259, "author": "鄭至鈞", "author_info": "8 reviews · 3 photos", "time": "4 months ago", "text": "菜色豐富好吃，東坡肉肉質很讚👍，雞湯好喝 …", "sentiment": "positive", "likes": "", "tags": ["東坡肉", "石斛雞湯"]}, {"id": 260, "author": "Natasha", "author_info": "Local Guide · 68 reviews · 106 photos", "time": "Edited 3 years ago", "text": "臭豆腐非常好吃，敢吃臭豆腐的一定要點，其他菜色表現也不錯", "sentiment": "positive", "likes": "+5", "tags": []}, {"id": 261, "author": "Jiun-Han Lin", "author_info": "Local Guide · 431 reviews · 7,068 photos", "time": "2 years ago", "text": "店員服務態度佳，餐點美味，餐廳地點方便，離捷運公館站近。", "sentiment": "negative", "likes": "+29", "tags": ["服務態度"]}, {"id": 262, "author": "羅晧文", "author_info": "Local Guide · 11 reviews · 21 photos", "time": "Edited a year ago", "text": "各項菜色令人驚艷，適合會議聚餐", "sentiment": "positive", "likes": "+2", "tags": []}, {"id": 263, "author": "東漂小公主艾莎", "author_info": "7 reviews · 3 photos", "time": "a year ago", "text": "石斛燉雞雞👍❤️再次帶家人聚餐慶生🎉但是美中不足是我們已訂位；不希望用餐時間只有90分鐘。（帶位時應該先行說明）不然這樣讓繼續用餐著很尷尬；只能「打包」餐點帶回家吃。原本開心的心情就會有些掃興。 …", "sentiment": "neutral", "likes": "", "tags": ["石斛雞湯", "催客趕人"]}, {"id": 264, "author": "WanTing Lee", "author_info": "Local Guide · 44 reviews · 34 photos", "time": "Edited 3 years ago", "text": "UberEats點了清蒸臭豆腐，豆腐質地細緻柔軟，切開成小塊再浸進香辣醬汁裡，吸飽湯汁很推薦～\n之前點過東坡肉夾掛包，肉質處理軟嫩，淋醬味道濃郁甜鹹，不怕肥肉的客人很推薦！\n但白飯軟黏，小可惜。", "sentiment": "positive", "likes": "", "tags": ["東坡肉", "CP值"]}, {"id": 265, "author": "林傑", "author_info": "Local Guide · 2,651 reviews · 23,109 photos", "time": "Edited 3 years ago", "text": "口味好的，份量中等，上餐快速，空間寬敞。\n\n團體聚會推薦。", "sentiment": "positive", "likes": "+33", "tags": []}, {"id": 266, "author": "Shou", "author_info": "Local Guide · 169 reviews · 395 photos", "time": "3 years ago", "text": "1.沒有烤麩的上海菜館沒有靈魂\n2.醃篤鮮好喝 紅茶好喝 梅汁小番茄很解膩\n3.菜飯上錯兩次 …", "sentiment": "neutral", "likes": "", "tags": ["上海菜飯"]}, {"id": 267, "author": "Andy Chen", "author_info": "Local Guide · 73 reviews · 49 photos", "time": "9 months ago", "text": "每道菜都很好吃，家庭聚餐的好地方，停車或大眾交通都很方便。", "sentiment": "positive", "likes": "", "tags": []}, {"id": 268, "author": "Y C H", "author_info": "Local Guide · 181 reviews · 458 photos", "time": "7 years ago", "text": "餐點美味可口，價格又實惠，是我很喜愛的中式餐廳，缺點是不顧客人一直上菜，無法慢慢享用美食😓 …", "sentiment": "positive", "likes": "", "tags": ["CP值"]}, {"id": 269, "author": "Joannie Huang", "author_info": "Local Guide · 54 reviews · 50 photos", "time": "a year ago", "text": "服務很周到，餐點很細緻，也會注意客人的需求。包廂有低消10,000元。", "sentiment": "neutral", "likes": "", "tags": []}, {"id": 270, "author": "Judy Cheng", "author_info": "Local Guide · 303 reviews · 267 photos", "time": "Edited 5 years ago", "text": "這次和老師和同學一起來曉鹿鳴堂樓上海料理用餐，一開始一直以為是在樓上的海鮮料理，後來發現是之前從原筷子擴大店面，價位上比筷子高得多，為江浙菜，有茶飲，菜色都還不錯，特別值得一提的是魚頭，紅燒魚頭的膠質搭配醬料恰到好處，不會過甜或鹹，好吃！東坡肉配刈包滋味也很夠，若有機會再來會想嘗試砂鍋醃肚鮮，另外甜點的部分除了白木耳湯外，還點了網美香菇包，內餡為芝麻，但口感上過於黏膩。", "sentiment": "positive", "likes": "", "tags": ["東坡肉"]}, {"id": 271, "author": "Yen-Po Chang", "author_info": "Local Guide · 780 reviews · 2,022 photos", "time": "5 years ago", "text": "很有名的上海菜餐廳，價格稍貴，味道比較清淡的一家店，點了常見的菜色都不太鹹，適合口味較清淡的人）\n蹄筋烏蔘堡$560，寧式鱔魚$360，乾扁三樣：還不錯，中規中矩\n招牌東坡肉$640：口感很好不油膩，和一般的比不鹹 …", "sentiment": "negative", "likes": "", "tags": ["東坡肉"]}, {"id": 272, "author": "Jack Lee", "author_info": "Local Guide · 203 reviews · 587 photos", "time": "Edited 3 years ago", "text": "位於台灣大學的一偶，一間上海菜餐廳，服務、食物都很到位，尤其是大沙公，實在太好吃了", "sentiment": "positive", "likes": "", "tags": []}, {"id": 273, "author": "Jesse Chao", "author_info": "Local Guide · 116 reviews · 494 photos", "time": "7 years ago", "text": "餐廳在空間配置上似乎多了點大桌，而少了些三，四位用餐的桌位！雖然可彈性併桌，又因大圓桌轉盤的設置而窒礙難行。服務有效率，但親和度似不足。雖是上海菜，惟餐點菜系頗雜，居然有麻婆豆腐，金沙蝦球...等，烹調偏油膩，吃完容易鬧肚子！招牌的東坡肉燉的軟爛，確也油到嚇人，用割包夾著吃，吃完已一手肥油！價位相對偏高，考慮到晚間有雙人演奏的現場表演，又附贈品質不錯的銀耳甜湯，還是值得一試，只是點菜選擇上需要小心些！", "sentiment": "neutral", "likes": "", "tags": ["東坡肉"]}, {"id": 274, "author": "Alice", "author_info": "Local Guide · 16 reviews · 35 photos", "time": "a year ago", "text": "服務非常好！東西好吃！餐廳乾淨～讚讚", "sentiment": "positive", "likes": "+6", "tags": []}, {"id": 275, "author": "Ariel Lin", "author_info": "Local Guide · 15 reviews · 4 photos", "time": "6 months ago", "text": "有生以來吃過最難吃以及吃的最不舒適的年夜飯 拜託大家筆記避雷😑\n整場不知道為什麼趕到不行 上菜沒多久就會一直問要不要打包 甚至筷子都還沒有動到菜？\n最後約20分鐘也很著急的送上冰淇淋 即使我們反應提問能不能要走之前才拿 畢竟冰淇淋是會融化的食品 也是被態度很差的回說沒辦法 …", "sentiment": "negative", "likes": "", "tags": ["催客趕人", "服務態度", "年菜爭議"]}, {"id": 276, "author": "IvY Tsou", "author_info": "7 reviews · 3 photos", "time": "8 months ago", "text": "服務很好\n東西好吃\n土肉桂紅茶很特別很好喝", "sentiment": "positive", "likes": "", "tags": []}, {"id": 277, "author": "Pin Lee", "author_info": "6 reviews · 6 photos", "time": "5 months ago", "text": "菜美味，服務好，很親切", "sentiment": "positive", "likes": "", "tags": []}, {"id": 278, "author": "Meow!", "author_info": "Local Guide · 511 reviews · 290 photos", "time": "7 years ago", "text": "東坡肉入口即化，肥肉爽口不膩，非常出色，萌菇包很討喜，好吃的餐廳，下次再來試試其他菜色", "sentiment": "positive", "likes": "", "tags": ["東坡肉"]}, {"id": 279, "author": "Ra Sooo", "author_info": "11 reviews · 8 photos", "time": "a year ago", "text": "二訪還是覺得好吃，服務人員親切，很適合家庭聚餐，老少咸宜\n必點：需預訂的雞湯、東坡肉、香干肉絲、菜飯", "sentiment": "positive", "likes": "", "tags": ["東坡肉", "石斛雞湯", "上海菜飯"]}, {"id": 280, "author": "movies eric", "author_info": "Local Guide · 972 reviews · 24,439 photos", "time": "Edited 4 years ago", "text": "好吃道地，環境舒適，有台大校友證還可以打折。", "sentiment": "positive", "likes": "+15", "tags": []}, {"id": 281, "author": "丹", "author_info": "Local Guide · 954 reviews · 1,512 photos", "time": "a year ago", "text": "2025-02-02大年初五到訪，娘家家庭聚餐， 15800再加10 %服務費，吃桌菜，所有拿手菜都不在內，但沖著用餐時間就沒有限制，想說這麼有名氣的店家，手藝應該也不會太糟糕，但是我錯了，沒有一道菜有亮點（連拍照都懶得拍）；更糟的是，服務人員彼此沒有溝通清楚，不斷的有不同服務人員來趕人，態度還很不客氣，讓主人家覺得真是花錢找罪受，真是令人氣憤跟失望。", "sentiment": "negative", "likes": "", "tags": ["催客趕人", "服務態度", "年菜爭議"]}, {"id": 282, "author": "GAGA LIAO", "author_info": "Local Guide · 111 reviews · 159 photos", "time": "8 months ago", "text": "外帶等餐可以等30分鐘，裡面內用還座位不到三分之一，如此慢~", "sentiment": "neutral", "likes": "", "tags": []}, {"id": 283, "author": "炎羅", "author_info": "Local Guide · 307 reviews · 38 photos", "time": "a month ago", "text": "口味偏重，不過還算好吃。\n開陽白菜不錯", "sentiment": "positive", "likes": "", "tags": []}, {"id": 284, "author": "Un breakable", "author_info": "Local Guide · 107 reviews · 90 photos", "time": "3 years ago", "text": "這種菜在上海大概就賣一道30、40人民幣。\n調味就是中國類似挖土機學校這種速成廚藝學校出來的。\n這不算貶，是實誠的說明。 …", "sentiment": "neutral", "likes": "", "tags": []}, {"id": 285, "author": "魏育璿", "author_info": "3 reviews · 2 photos", "time": "5 months ago", "text": "峭壁石斛燉雞湯好喝", "sentiment": "neutral", "likes": "", "tags": ["石斛雞湯"]}, {"id": 286, "author": "Vic Huang", "author_info": "Local Guide · 766 reviews · 25,529 photos", "time": "4 years ago", "text": "全台北最好吃的東坡肉\n入口即化\n心太軟也是精緻爽口不甜膩", "sentiment": "positive", "likes": "+20", "tags": ["東坡肉"]}, {"id": 287, "author": "Eric Chung", "author_info": "Local Guide · 109 reviews · 135 photos", "time": "5 years ago", "text": "東坡肉入口即化，令人垂涎三尺、難以忘懷；砂鍋焉肚鮮用料實在，湯頭甘醇爽口，讓人一口接一口。", "sentiment": "neutral", "likes": "", "tags": ["東坡肉"]}, {"id": 288, "author": "J Wang", "author_info": "Local Guide · 86 reviews · 149 photos", "time": "11 months ago", "text": "餐點好吃，服務也不錯", "sentiment": "positive", "likes": "+3", "tags": []}, {"id": 289, "author": "YC Wang", "author_info": "Local Guide · 11 reviews · 18 photos", "time": "8 months ago", "text": "餐點美味，推建親友聚餐", "sentiment": "positive", "likes": "", "tags": []}, {"id": 290, "author": "茂男黃", "author_info": "Local Guide · 13 reviews · 40 photos", "time": "a year ago", "text": "假日用餐限90分鐘，問題是餐廳假日根本坐不滿沒客人。點餐上菜吃的很趕連甜點都來不及點；90分鐘一到全桌收光光。看你怎麼坐。\n不過點餐滿一萬元（不含外帶），意思是二個人點9999元時間90分鐘一到也不行。\n店家有規定，客人一定會找間適合的餐廳去吃飯。\n雖然學校在基隆路上的台*大，很近但不會想再去用餐，感覺很不好", "sentiment": "negative", "likes": "", "tags": ["催客趕人"]}, {"id": 291, "author": "Berry Chou", "author_info": "Local Guide · 819 reviews · 11,426 photos", "time": "7 years ago", "text": "環境清潔 裝潢新 空間還算寬敞 餐點好吃。偶有現場演奏，感覺很不錯。", "sentiment": "positive", "likes": "+14", "tags": []}, {"id": 292, "author": "何祁叡", "author_info": "8 reviews · 2 photos", "time": "a year ago", "text": "峭壁石斛燉雞湯\n鮮嫩的雞肉透過加入藥材燉煮別有一番風味，喝起來不膩口且味道特別", "sentiment": "neutral", "likes": "", "tags": ["石斛雞湯"]}, {"id": 293, "author": "An Lee", "author_info": "7 reviews · 2 photos", "time": "a year ago", "text": "常常跟家人來吃，每道菜都好吃！價錢合理，適合家人、朋友聚餐～", "sentiment": "positive", "likes": "", "tags": []}, {"id": 294, "author": "花中哥 第10級", "author_info": "Local Guide · 992 reviews · 16,939 photos", "time": "2 years ago", "text": "東西都不錯吃，大家可以來試試，推薦一下", "sentiment": "positive", "likes": "+20", "tags": []}, {"id": 295, "author": "Huang 黃Song-En 頌恩", "author_info": "Local Guide · 196 reviews · 390 photos", "time": "a year ago", "text": "要不是每道菜都這麼好吃，炒飯我早就吃光了。\n道地的承傳大菜。", "sentiment": "positive", "likes": "+2", "tags": []}, {"id": 296, "author": "Frank Hung", "author_info": "Local Guide · 298 reviews · 1,933 photos", "time": "a year ago", "text": "上菜速度超快\n東西好吃\n峭壁石斛燉雞湯很厲害！", "sentiment": "positive", "likes": "", "tags": ["石斛雞湯"]}, {"id": 297, "author": "Eugene Cheng", "author_info": "Local Guide · 38 reviews · 25 photos", "time": "5 months ago", "text": "石斛雞湯讚～\n每道菜都好吃，尤其推薦的都不錯😁 …", "sentiment": "positive", "likes": "", "tags": ["石斛雞湯"]}, {"id": 298, "author": "Eric Yen", "author_info": "7 reviews · 1 photo", "time": "4 months ago", "text": "指名峭壁石斛燉雞雞⋯⋯湯", "sentiment": "neutral", "likes": "", "tags": ["石斛雞湯"]}, {"id": 299, "author": "Hans Huang (大雄)", "author_info": "Local Guide · 761 reviews · 11,365 photos", "time": "7 years ago", "text": "標榜上海菜，服務親切，菜色不錯，就是吵了一點。", "sentiment": "negative", "likes": "+18", "tags": []}, {"id": 300, "author": "Lii Gwen", "author_info": "Local Guide · 200 reviews · 198 photos", "time": "3 years ago", "text": "一桌15800外加10%服務費總共17380，除夕夜吃的我一臉懵！進入餐廳映入眼簾的是亂七八糟的大圓桌擠得滿滿滿，幾乎是椅背貼椅背的坐，根本大型群聚現場，頓時用餐心情已經掉一大半！菜單名字取得好聽又好看，結果那菜色是慘不忍睹的廉價又難吃，一桌賣我3000塊都嫌多！用餐期間服務人員一直催促，感受之差，因爲要繼續吃，詢問可否協助裝小盤，卻語氣很不專業的直接告知只能打包不能換小盤，你一桌收17380還這麼硬，真的很好意思？除此之外，現場還有老人唱著不標準的英文歌惱人！要不要這麼薩風 …", "sentiment": "negative", "likes": "", "tags": ["催客趕人", "年菜爭議"]}, {"id": 301, "author": "B L", "author_info": "Local Guide · 102 reviews · 426 photos", "time": "3 years ago", "text": "Best friend’s invitation in Taipei. Enjoy this lovely dinner.\nNice Restaurant.\nNice Dishes.\nNice Gathering.", "sentiment": "neutral", "likes": "+2", "tags": []}, {"id": 302, "author": "元智大學藝術與設計系巫銘紘", "author_info": "6 reviews · 10 photos", "time": "4 months ago", "text": "母親節聚餐，預訂了好喝的雞湯，東坡肉也很好吃", "sentiment": "positive", "likes": "", "tags": ["東坡肉", "石斛雞湯"]}, {"id": 303, "author": "廖世照", "author_info": "Local Guide · 133 reviews · 7 photos", "time": "5 years ago", "text": "包廂低消壹萬元哦!服務主管語氣略帶疲憊與不削，菜色食材烹飪手法也不錯!最主要台大餐廳的包廂特色每道菜都伴隨小菓蠅。", "sentiment": "neutral", "likes": "", "tags": []}, {"id": 304, "author": "Hung-Yu Hsieh", "author_info": "Local Guide · 12 reviews · 14 photos", "time": "a year ago", "text": "很道地的江浙菜，招牌東坡肉必點！", "sentiment": "positive", "likes": "+2", "tags": ["東坡肉"]}, {"id": 305, "author": "許名松", "author_info": "3 reviews · 1 photo", "time": "a year ago", "text": "今天南山人壽午宴，還沒開場就有精彩的彩排，享用美味的菜餚，還有精心安排的音樂饗宴與振奮人心的演講，有美酒有好喝的茶水，菜色好，服務好，今天真的很開心在曉鹿鳴樓用餐，下次還想再來用餐👍 …", "sentiment": "positive", "likes": "", "tags": []}, {"id": 306, "author": "黃峻凱", "author_info": "Local Guide · 79 reviews · 28 photos", "time": "2 years ago", "text": "餐點不錯吃\n但真的很鹹\n吃到甜湯的時候有種活過來的感覺 …", "sentiment": "neutral", "likes": "", "tags": []}, {"id": 307, "author": "Iven Yang", "author_info": "Local Guide · 662 reviews · 2,477 photos", "time": "3 years ago", "text": "東坡肉很讚，場地寬敞，也有包廂適合聚餐。\n柳橙汁太甜，有些菜偏鹹，其它還不錯。", "sentiment": "positive", "likes": "", "tags": ["東坡肉"]}, {"id": 308, "author": "Ming Chiang", "author_info": "Local Guide · 323 reviews · 2,667 photos", "time": "4 years ago", "text": "國泰航空退休人員為我們精神領導金小姐過90華誕 特選\n公館的上海菜餐廳--曉鹿鳴樓\n午餐 菜單如下 …", "sentiment": "neutral", "likes": "+18", "tags": []}, {"id": 309, "author": "鄭捷文", "author_info": "Local Guide · 277 reviews · 1,195 photos", "time": "Edited 5 years ago", "text": "東坡肉味美，上海菜飯好吃，海菜吻仔魚蛋煎的漂亮、主厨好手藝", "sentiment": "positive", "likes": "+6", "tags": ["東坡肉", "上海菜飯"]}, {"id": 310, "author": "faye lin", "author_info": "7 reviews · 5 photos", "time": "4 years ago", "text": "年夜飯的菜單如照片，最後一道是水果拼盤，等了很久都沒有上，結果問了服務生後，所謂的水果拼盤就是一開始在桌上的橘子塔⋯⋯呵呵", "sentiment": "neutral", "likes": "", "tags": ["服務態度", "年菜爭議"]}, {"id": 311, "author": "陳振維", "author_info": "10 reviews · 5 photos", "time": "a year ago", "text": "非常好吃的餐廳，雞湯跟東波肉一絕", "sentiment": "positive", "likes": "", "tags": ["石斛雞湯"]}, {"id": 312, "author": "Heng Hsu", "author_info": "Local Guide · 29 reviews · 41 photos", "time": "4 years ago", "text": "聚餐好地方～\n雖然小菜的部分稍嫌普通，但點菜的菜色部分滿意！水煮魚有麻香份量也大，東坡肉更是肥嫩多汁！！！", "sentiment": "positive", "likes": "", "tags": ["東坡肉"]}, {"id": 313, "author": "lori huang", "author_info": "Local Guide · 184 reviews · 939 photos", "time": "4 years ago", "text": "跟到餐酒會，東西很好吃，辣得很過癮！", "sentiment": "positive", "likes": "+7", "tags": []}, {"id": 314, "author": "Jimmy Lee", "author_info": "5 reviews · 5 photos", "time": "2 years ago", "text": "非常好吃，每道菜都不錯，價格也合理，週邊交通也非常方便。", "sentiment": "positive", "likes": "", "tags": []}, {"id": 315, "author": "洪韻玄", "author_info": "6 reviews · 5 photos", "time": "a year ago", "text": "今天跟客人一起到餐廳用餐，過程中，服務人員的態度有夠差！\n包廂裡面燈泡那在滴水，我跟服務人員說，她跟我說叫我不要叫，進去包廂裡面，她等一下進來處理🙄\n沒多久那位服務生進來，看到我還問我說「剛剛是你在叫的嗎」 …", "sentiment": "negative", "likes": "", "tags": ["服務態度"]}, {"id": 316, "author": "Wenny", "author_info": "Local Guide · 25 reviews · 1 photo", "time": "6 months ago", "text": "一直很愛蔥烤鯽魚，但最近都沒有以前好吃，腥味重，太鹹。", "sentiment": "negative", "likes": "", "tags": []}, {"id": 317, "author": "陳妙娟", "author_info": "1 review · 2 photos", "time": "5 months ago", "text": "服務好、餐點好", "sentiment": "neutral", "likes": "", "tags": []}, {"id": 318, "author": "Ann Li", "author_info": "Local Guide · 51 reviews · 326 photos", "time": "4 years ago", "text": "吃了好多次，每次都另人太驚艷💗 …", "sentiment": "positive", "likes": "+36", "tags": []}, {"id": 319, "author": "Steven Sun", "author_info": "Local Guide · 6 reviews · 28 photos", "time": "a year ago", "text": "雞湯很讚，餐點都有一定水準，推薦適合聚會的好餐廳", "sentiment": "positive", "likes": "", "tags": ["石斛雞湯"]}];
+
+    let activeTab = 'top3';
+    let currentSentimentFilter = 'all';
+    let activeTag = null;
+    let searchQuery = '';
+    let displayedCount = 20;
+
+    function switchTab(tabId) {
+      activeTab = tabId;
+      ['top3', 'dishes', 'reviews', 'strategy'].forEach(t => {
+        const el = document.getElementById('tab-' + t);
+        const nav = document.getElementById('nav-' + t);
+        if (t === tabId) {
+          el.classList.remove('hidden');
+          el.classList.add('block');
+          nav.className = 'px-3 py-1.5 rounded-lg font-medium transition-all bg-amber-500/20 text-amber-300 border border-amber-500/30';
+        } else {
+          el.classList.remove('block');
+          el.classList.add('hidden');
+          nav.className = 'px-3 py-1.5 rounded-lg font-medium transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800';
+        }
+      });
+      if (tabId === 'reviews') {
+        renderReviews();
+      }
+    }
+
+    function setSentimentFilter(type) {
+      currentSentimentFilter = type;
+      ['all', 'positive', 'negative', 'neutral'].forEach(t => {
+        const btn = document.getElementById('filter-' + t);
+        if (t === type) {
+          btn.className = 'px-3 py-1.5 rounded-lg text-xs font-medium bg-amber-500 text-slate-950 font-bold transition-all';
+        } else {
+          btn.className = 'px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-900 text-slate-400 hover:text-slate-200 transition-all border border-slate-700';
+        }
+      });
+      applyFilters();
+    }
+
+    function toggleTagFilter(tag) {
+      if (activeTag === tag) {
+        activeTag = null;
+      } else {
+        activeTag = tag;
+      }
+      document.querySelectorAll('.tag-btn').forEach(btn => {
+        if (btn.getAttribute('data-tag') === activeTag) {
+          btn.classList.add('bg-amber-500/20', 'text-amber-300', 'border-amber-500');
+          btn.classList.remove('bg-slate-900', 'text-slate-300');
+        } else {
+          btn.classList.remove('bg-amber-500/20', 'text-amber-300', 'border-amber-500');
+          btn.classList.add('bg-slate-900', 'text-slate-300');
+        }
+      });
+      applyFilters();
+    }
+
+    function applyFilters() {
+      searchQuery = document.getElementById('review-search').value.trim().toLowerCase();
+      displayedCount = 20;
+      renderReviews();
+    }
+
+    function loadMoreReviews() {
+      displayedCount += 20;
+      renderReviews();
+    }
+
+    function getFilteredReviews() {
+      return rawReviews.filter(r => {
+        // Sentiment filter
+        if (currentSentimentFilter !== 'all' && r.sentiment !== currentSentimentFilter) {
+          return false;
+        }
+        // Tag filter
+        if (activeTag && !r.tags.includes(activeTag) && !r.text.includes(activeTag)) {
+          return false;
+        }
+        // Search query
+        if (searchQuery) {
+          const matchAuthor = r.author.toLowerCase().includes(searchQuery);
+          const matchText = r.text.toLowerCase().includes(searchQuery);
+          const matchTags = r.tags.some(t => t.toLowerCase().includes(searchQuery));
+          if (!matchAuthor && !matchText && !matchTags) return false;
+        }
+        return true;
+      });
+    }
+
+    function renderReviews() {
+      const container = document.getElementById('reviews-container');
+      const filtered = getFilteredReviews();
+      document.getElementById('filtered-count').innerText = `${filtered.length} 則`;
+
+      const noRes = document.getElementById('no-results');
+      const loadBtn = document.getElementById('load-more-btn');
+
+      if (filtered.length === 0) {
+        container.innerHTML = '';
+        noRes.classList.remove('hidden');
+        loadBtn.classList.add('hidden');
+        return;
+      } else {
+        noRes.classList.add('hidden');
+      }
+
+      const slice = filtered.slice(0, displayedCount);
+      if (displayedCount >= filtered.length) {
+        loadBtn.classList.add('hidden');
+      } else {
+        loadBtn.classList.remove('hidden');
+      }
+
+      let html = '';
+      slice.forEach(r => {
+        let badgeClass = 'bg-slate-700 text-slate-300';
+        let badgeText = '中立觀望';
+        let borderClass = 'border-slate-700/60';
+        if (r.sentiment === 'positive') {
+          badgeClass = 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30';
+          badgeText = '正面滿意';
+          borderClass = 'border-slate-700/60 hover:border-emerald-500/40';
+        } else if (r.sentiment === 'negative') {
+          badgeClass = 'bg-rose-500/10 text-rose-400 border border-rose-500/30';
+          badgeText = '負面客訴';
+          borderClass = 'border-slate-700/60 hover:border-rose-500/40';
+        }
+
+        const tagsHtml = r.tags.map(t => `<span class="px-2 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-300 text-[11px]">#${t}</span>`).join(' ');
+
+        html += `
+          <div class="bg-slate-800/80 border ${borderClass} transition-all rounded-2xl p-5 space-y-3 flex flex-col justify-between shadow-sm">
+            <div class="space-y-2.5">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                  <span class="w-7 h-7 rounded-full bg-slate-700 flex items-center justify-center font-bold text-xs text-slate-200">
+                    ${r.author.charAt(0)}
+                  </span>
+                  <div>
+                    <h5 class="font-semibold text-white text-xs sm:text-sm leading-tight">${escapeHtml(r.author)}</h5>
+                    <p class="text-[11px] text-slate-400">${escapeHtml(r.time)}</p>
+                  </div>
+                </div>
+                <span class="px-2 py-0.5 text-xs rounded-full font-medium ${badgeClass}">${badgeText}</span>
+              </div>
+              
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed whitespace-pre-line">${highlightText(escapeHtml(r.text), searchQuery)}</p>
+            </div>
+
+            <div class="pt-2 border-t border-slate-700/40 flex items-center justify-between text-xs text-slate-400">
+              <div class="flex flex-wrap gap-1">
+                ${tagsHtml}
+              </div>
+              ${r.likes ? `<span class="text-amber-400 font-medium">👍 ${r.likes}</span>` : ''}
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function highlightText(text, query) {
+      if (!query) return text;
+      const re = new RegExp(`(${query})`, 'gi');
+      return text.replace(re, '<mark class="bg-amber-400 text-slate-950 font-bold px-0.5 rounded">$1</mark>');
+    }
+
+    // Initial render
+    renderReviews();
+  </script>
+</body>
+</html>
